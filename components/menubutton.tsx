@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useSpring, a } from 'react-spring/three'
+import { useSpring, a } from 'react-spring/three.cjs'
 
 const MenuButton = () => {
     const [hovered, setHovered] = useState(false)

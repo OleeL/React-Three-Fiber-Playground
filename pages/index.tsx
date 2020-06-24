@@ -1,10 +1,10 @@
-import React from 'react'
-import { Canvas } from 'react-three-fiber'
-import MenuButton from './menubutton'
+import React, { FC } from 'react';
+import { Canvas } from 'react-three-fiber';
+import MenuButton from '../components/menubutton';
 
-const Game = () => 
+const index: FC = () => 
     <Canvas>
         <MenuButton />
     </Canvas>
 
-export default Game;
+export default index;
