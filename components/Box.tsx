@@ -1,13 +1,13 @@
 import React, { useState } from 'react'
 import { useSpring, a } from 'react-spring/three.cjs'
 
-const MenuButton = () => {
+const Box = () => {
     const [hovered, setHovered] = useState(false)
     const [active, setActive] = useState(false)
     const props = useSpring({
-        scale: active ? [1, 4, 1] : [1, 1, 1],
+        scale: active ? [4, 4, 4] : [1, 1, 1],
         color: hovered ? "red" : "gray",
-    });
+    }); 
 
     return (
     <a.mesh
@@ -24,4 +24,4 @@ const MenuButton = () => {
     </a.mesh>
     )
 }
-export default MenuButton;
+export default Box;
