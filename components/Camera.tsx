@@ -1,6 +1,6 @@
 import { useRef, FC } from "react";
 import { useFrame, extend, useThree, ReactThreeFiber } from 'react-three-fiber';
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
+import { OrbitControls } from './OrbitControls';
 
 // Make OrbitControls known as <orbitControls />
 extend({ OrbitControls });
@@ -17,8 +17,11 @@ const Camera: FC = (props) => {
     const ref = useRef();
     const { camera, gl } = useThree();
 
-    //@ts-ignore
-    useFrame(() => ref.obj.current.update());
+    useFrame(() => {
+      console.log(ref.current);
+      //@ts-ignore
+      ref.current.update();
+    });
     return <orbitControls 
         ref={ref}
         args={[camera, gl.domElement]}
