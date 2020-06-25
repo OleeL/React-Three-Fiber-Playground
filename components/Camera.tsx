@@ -1,6 +1,6 @@
-import { useRef } from "react";
-import { useThree, useFrame, ReactThreeFiber, extend } from 'react-three-fiber';
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+import { useRef, FC } from "react";
+import { useFrame, extend, useThree, ReactThreeFiber } from 'react-three-fiber';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 
 // Make OrbitControls known as <orbitControls />
 extend({ OrbitControls });
@@ -13,7 +13,7 @@ declare global {
   }
 }
 
-const Camera = (props) => {
+const Camera: FC = (props) => {
     const ref = useRef();
     const { camera, gl } = useThree();
 
