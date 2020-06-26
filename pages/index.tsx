@@ -1,9 +1,11 @@
-import React, { FC } from 'react';
+import React, { FC, Suspense } from 'react';
 import { Canvas } from 'react-three-fiber';
 import Box from '../components/game/Box';
 import Camera from '../components/game/camera/camera';
 import styled from 'styled-components';
 import Light from '../components/game/Light';
+import Model from '../components/game/models/model-helpers/GLTF';
+import Models from '../components/game/models/models';
 
 const Game = styled.div`
     position: fixed;
@@ -24,9 +26,9 @@ const index: FC = () => (
             concurrent
             colorManagement
         >
-            <Light />
-            <Camera />
-            <Box />
+            <Light  />
+            <Camera position={[0, 0, 0]} />
+            <Models />
         </Canvas>
     </Game>
 );
