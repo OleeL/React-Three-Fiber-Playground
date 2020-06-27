@@ -1,22 +1,26 @@
 import React, { FC } from 'react'
 import { Color } from 'three';
+import Box from './Box';
 
 const ColorBlack = new Color(0, 0, 0);
+const ColorWhite = new Color(1, 1, 1);
+const arr: [number, number, number] = [-2.5, 5, 2.5]
 
-const Light: FC = () => 
-    <>
+const Lights: FC = () => 
+    <group>
         <fog
-            color={ColorBlack}
+            color={ColorWhite}
         />
-        <ambientLight 
-            color={ColorBlack}
-            intensity={1000}
-            position={[10, 100, 10]}
+        <ambientLight
+            color={ColorWhite}
+            intensity={.1}
         />
-        <pointLight 
-            position={[10, 20, 10]}
+        <pointLight
+            position={arr}
             intensity={1}
         />
-    </>
-
-export default Light;
+        <Box position={arr}/>
+        
+    </group>
+    
+export default Lights;

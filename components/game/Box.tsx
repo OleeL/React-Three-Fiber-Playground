@@ -1,7 +1,7 @@
 import React, { useState, useRef, FC } from 'react'
 import { useSpring, a } from 'react-spring/three.cjs'
 
-const Box: FC = (props) => {
+const Box: FC<any> = (props) => {
     const mesh = useRef();
     const [hovered, setHovered] = useState(false)
     const [active, setActive] = useState(false)

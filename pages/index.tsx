@@ -1,10 +1,8 @@
 import React, { FC, Suspense } from 'react';
 import { Canvas } from 'react-three-fiber';
-import Box from '../components/game/Box';
 import Camera from '../components/game/camera/camera';
 import styled from 'styled-components';
-import Light from '../components/game/Light';
-import Model from '../components/game/models/model-helpers/GLTF';
+import Lights from '../components/game/Light';
 import Models from '../components/game/models/models';
 
 const Game = styled.div`
@@ -17,7 +15,7 @@ const Game = styled.div`
 
     width: 100%;
     height: 100%;
-    background: rgb(48,25,52);
+    background: grey;
 `
 
 const index: FC = () => (
@@ -26,7 +24,7 @@ const index: FC = () => (
             concurrent
             colorManagement
         >
-            <Light  />
+            <Lights  />
             <Camera position={[0, 0, 0]} />
             <Models />
         </Canvas>
