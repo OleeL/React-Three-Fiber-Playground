@@ -9,7 +9,7 @@ const arr: [number, number, number] = [-2.5, 5, 2.5]
 const Lights: FC = () => 
     <group>
         <fog
-            color={ColorWhite}
+            color={ColorBlack}
         />
         <ambientLight
             color={ColorWhite}
@@ -19,7 +19,7 @@ const Lights: FC = () =>
             position={arr}
             intensity={1}
         />
-        <Box position={arr}/>
+        {/* <Box position={arr}/> */}
         
     </group>
     
