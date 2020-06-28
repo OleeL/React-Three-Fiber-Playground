@@ -19,7 +19,6 @@ const Lights: FC = () =>
             position={arr}
             intensity={1}
         />
-        <Box position={arr}/>
     </group>
     
 export default Lights;

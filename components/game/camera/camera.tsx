@@ -2,6 +2,7 @@ import { useRef, FC } from "react";
 import { useFrame, extend, useThree, ReactThreeFiber } from 'react-three-fiber';
 import { OrbitControls } from './OrbitControls';
 import { Vector3, Euler } from "three";
+import Box from "../Box";
 
 // Make OrbitControls known as <orbitControls />
 extend({ OrbitControls });
@@ -28,12 +29,15 @@ const Camera: FC<ISettings> = (props) => {
       ref.current.update();
     });
     
-    return <orbitControls 
-        ref={ref}
-        args={[camera, gl.domElement]}
-        enableDamping
-        dampingFactor={0.1}
-    />
+    return (
+      <group>
+        <orbitControls
+            ref={ref}
+            args={[camera, gl.domElement]}
+            enableDamping
+            dampingFactor={0.1}
+        />
+      </group>)
 }
 
 export default Camera;

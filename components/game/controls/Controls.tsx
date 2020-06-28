@@ -1,4 +1,3 @@
-import { Left, Up, Right, Down } from "./KeyBindings";
 import { 
     LEFT,
     UP,
@@ -7,11 +6,17 @@ import {
     CODELEFT,
     CODEUP,
     CODERIGHT,
-    CODEDOWN
+    CODEDOWN,
+    Q,
+    E,
+    CODEE,
+    CODEQ
 } from "./KeyBindingConfig";
 
 import { useFrame } from "react-three-fiber";
 import { useRef } from "react";
+import { useStore } from "../../../stores/StoreContext";
+import { CommandRight, CommandDown, CommandUp, CommandLeft, CommandE, CommandQ } from "./KeyBindingCommands";
 
 const codeToKey = new Map<number, string>();
 const keysDown: string[] = [];
@@ -23,6 +28,8 @@ const RegisterKeyBinds = () => {
     CODEUP.forEach(key =>    codeToKey.set(key, UP));
     CODERIGHT.forEach(key => codeToKey.set(key, RIGHT));
     CODEDOWN.forEach(key =>  codeToKey.set(key, DOWN));
+    CODEE.forEach(key =>  codeToKey.set(key, E));
+    CODEQ.forEach(key =>  codeToKey.set(key, Q));
 }
 
 const onDocumentKeyDown = (event: { which: number; }) => {
@@ -37,19 +44,24 @@ const onDocumentKeyDown = (event: { which: number; }) => {
 const onDocumentKeyUp = (event: { which: number; }) => {
     
     const keyCode: number = event.which;
+    console.log(keyCode);
+
     if (!codeToKey.has(keyCode)) return;
     keysDown.splice(keysDown.indexOf(codeToKey.get(keyCode)), 1);
 };
 
 export const ControlUpdate = () => {
     const ref = useRef();
+    const store = useStore();
     useFrame(() => {
         keysDown.forEach(key => {
             switch(key) {
-                case LEFT: Left(); return;
-                case UP: Up(); return;
-                case DOWN: Down(); return;
-                case RIGHT: Right(); return;
+                case LEFT:  CommandLeft(store);  return;
+                case UP:    CommandUp(store);    return;
+                case DOWN:  CommandDown(store);  return;
+                case RIGHT: CommandRight(store); return;
+                case E: CommandE(store); return;
+                case Q: CommandQ(store); return;
             }
         });
     });

@@ -1,25 +1,29 @@
-import React, { useState, FC, useRef } from 'react'
+import React, { useState, FC, useRef, forwardRef } from 'react'
 import { useSpring, animated } from 'react-spring/three.cjs'
+import { TStore } from '../../stores/Store';
+import { useStore } from '../../stores/StoreContext';
 const material = { transparent: true, roughness: 0.8, fog: true, shininess: 1, flatShading: false }
 
-const Box: FC<any> = (props) => {
-    const ref = useRef();
+const Box: FC<any> = forwardRef((props, ref) => {
+    const store: TStore = useStore();
+
     const [hovered, setHovered] = useState(false)
     const [active, setActive] = useState(false)
     const settings = useSpring({
         scale: active ? [1.5, 1.5, 1.5] : [1, 1, 1],
-        color: hovered ? "pink" : "red"
+        color: hovered ? "orange" : "red"
     });
-    
+
     return (
+        <group>
             <animated.mesh
-                ref={ref}
                 onPointerOver={() => setHovered(true)}
                 onPointerOut={() => setHovered(false)}
                 onClick={() => setActive(!active)}
                 scale={settings.scale}
                 castShadow
                 receiveShadow
+                ref={ref}
                 {...props}
                 {...settings}>
                 <animated.boxBufferGeometry
@@ -30,6 +34,7 @@ const Box: FC<any> = (props) => {
                     {...material}
                     color={settings.color}/>
             </animated.mesh>
+        </group>
     )
-}
+});
 export default Box;
