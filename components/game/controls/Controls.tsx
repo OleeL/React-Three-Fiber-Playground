@@ -13,10 +13,18 @@ import {
     CODEQ
 } from "./KeyBindingConfig";
 
-import { useFrame } from "react-three-fiber";
+import { useFrame, useThree } from "react-three-fiber";
 import { useRef } from "react";
+import { PointerLockControls } from "./PointerLockControls";
 import { useStore } from "../../../stores/StoreContext";
-import { CommandRight, CommandDown, CommandUp, CommandLeft, CommandE, CommandQ } from "./KeyBindingCommands";
+import { 
+    CommandRight,
+    CommandDown,
+    CommandUp,
+    CommandLeft,
+    CommandE,
+    CommandQ
+} from "./KeyBindingCommands";
 
 const codeToKey = new Map<number, string>();
 const keysDown: string[] = [];
@@ -68,11 +76,27 @@ export const ControlUpdate = () => {
     return <mesh ref={ref}/>
 }
 
+export const Movement = (e) => {
+    console.log(e);
+}
+
 const Controls = () =>  {
     RegisterKeyBinds();
-    if (typeof window === "undefined") return;
-    window.addEventListener("keydown", onDocumentKeyDown, false);
-    window.addEventListener("keyup",   onDocumentKeyUp,   false);
+    if (typeof window === "undefined" || typeof document === "undefined") return;
+    window.addEventListener("keydown", onDocumentKeyDown,    false);
+    window.addEventListener("keyup",   onDocumentKeyUp,      false);
+
+
+    const { camera } = useThree();
+    console.log(document.body);
+    var controls = new PointerLockControls( camera, document.body );
+    controls.addEventListener( 'lock', function (menu) {
+        menu.style.display = 'none';
+    } );
+    
+    controls.addEventListener( 'unlock', function (menu) {
+        menu.style.display = 'block';
+    } );
 }
 
 export default Controls;
