@@ -7,7 +7,7 @@ import { useThree } from 'react-three-fiber';
 const EulerCameraRotation = new Euler(-0.349066,0,0);
 
 const Player: FC<any> = (props) => {
-    const { setDefaultCamera, mouse } = useThree();
+    const { setDefaultCamera } = useThree();
     const store = useStore();
     const ref = useRef();
 
@@ -15,7 +15,6 @@ const Player: FC<any> = (props) => {
     setDefaultCamera(camera);
 
     if (ref.current) store.setPlayer(ref.current);
-
     camera.position.setZ(4);
     camera.position.setY(1);
     camera.setRotationFromEuler(EulerCameraRotation);

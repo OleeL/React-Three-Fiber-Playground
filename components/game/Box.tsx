@@ -5,14 +5,14 @@ import { useStore } from '../../stores/StoreContext';
 const material = { transparent: true, roughness: 0.8, fog: true, shininess: 1, flatShading: false }
 
 const Box: FC<any> = forwardRef((props, ref) => {
-    const store: TStore = useStore();
-
     const [hovered, setHovered] = useState(false)
     const [active, setActive] = useState(false)
     const settings = useSpring({
         scale: active ? [1.5, 1.5, 1.5] : [1, 1, 1],
         color: hovered ? "orange" : "red"
     });
+
+    
 
     return (
         <group>
