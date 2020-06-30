@@ -27,6 +27,7 @@ const Game: FC = () => {
             <Canvas
                 concurrent
                 colorManagement
+                id="Canvas"
             >
                 <ControlUpdate />
                 <Lights  />
