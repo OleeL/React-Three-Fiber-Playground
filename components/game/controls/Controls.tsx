@@ -52,7 +52,7 @@ const onDocumentKeyDown = (event: { which: number; }) => {
 const onDocumentKeyUp = (event: { which: number; }) => {
 
     const keyCode: number = event.which;
-    console.log(keyCode);
+    // console.log(keyCode);
 
     if (!codeToKey.has(keyCode)) return;
     keysDown.splice(keysDown.indexOf(codeToKey.get(keyCode)), 1);
@@ -76,13 +76,10 @@ export const ControlUpdate = () => {
     return <mesh ref={ref} />
 }
 
-export const Movement = (e) => {
-    console.log(e);
-}
-
 const Controls = () => {
     const store = useStore();
     RegisterKeyBinds();
+    
     if (typeof window === "undefined" || typeof document === "undefined") return;
     window.addEventListener("keydown", onDocumentKeyDown, false);
     window.addEventListener("keyup", onDocumentKeyUp, false);

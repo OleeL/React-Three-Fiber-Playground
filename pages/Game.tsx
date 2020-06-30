@@ -1,11 +1,10 @@
-import React, { FC, useRef } from 'react';
-import { Canvas, Overwrite } from 'react-three-fiber';
+import React, { FC } from 'react';
+import { Canvas } from 'react-three-fiber';
 import styled from 'styled-components';
 import Lights from '../components/game/Light';
 import Models from '../components/game/models/Models';
 import Controls, { ControlUpdate } from '../components/game/controls/Controls';
 import Player from '../components/game/Player';
-import { useStore } from '../stores/StoreContext';
 
 const GameStyle = styled.div`
     position: fixed;
@@ -27,8 +26,7 @@ const Game: FC = () => {
             <Canvas
                 concurrent
                 colorManagement
-                id="Canvas"
-            >
+                id="Canvas">
                 <ControlUpdate />
                 <Lights  />
                 {/* <Camera position={[0, 0, 0]} /> */}
