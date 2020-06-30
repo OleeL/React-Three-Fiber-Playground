@@ -50,7 +50,6 @@ const onDocumentKeyDown = (event: { which: number; }) => {
 };
 
 const onDocumentKeyUp = (event: { which: number; }) => {
-
     const keyCode: number = event.which;
     // console.log(keyCode);
 
@@ -82,11 +81,10 @@ const Controls = () => {
     
     if (typeof window === "undefined" || typeof document === "undefined") return;
     window.addEventListener("keydown", onDocumentKeyDown, false);
-    window.addEventListener("keyup", onDocumentKeyUp, false);
+    window.addEventListener("keyup",   onDocumentKeyUp,   false);
     store.camera.rotation.order = "YXZ"; // this is not the default
 
     LockPointer(store);
-
 }
 
 export default Controls;

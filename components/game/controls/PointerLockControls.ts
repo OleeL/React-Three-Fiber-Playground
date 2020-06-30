@@ -39,6 +39,8 @@ export const LockPointer = (store: TStore) => {
         const mouseY = - (e.movementY / window.innerHeight);
         store.camera.rotation.x = Math.max( Math.min(store.camera.rotation.x + mouseY, 1.5708), -1.5708);
         store.camera.rotation.y += mouseX;
+        if (Math.abs(store.camera.rotation.y) > 6.28319 )
+            store.camera.rotation.y = store.camera.rotation.y % 6.28319;
     }
 }
 
