@@ -11,7 +11,10 @@ const Player: FC<any> = () => {
     
     useEffect(() => {
         setDefaultCamera(camera.camera);
-        if (ref.current) store.player.player = ref.current;
+        if (ref.current) {
+            store.player.player = ref.current;
+            store.player.player.rotation.order = "YXZ"; // this is not the default
+        }
         camera.camera.position.setX(camera.position.x);
         camera.camera.position.setY(camera.position.y);
         camera.camera.position.setZ(camera.position.z);
