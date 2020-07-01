@@ -1,5 +1,5 @@
 import { AppProps } from 'next/app'
-import { StoreProvider } from '../stores/StoreContext';
+import { StoreProvider, useStore } from '../stores/StoreContext';
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
     return(

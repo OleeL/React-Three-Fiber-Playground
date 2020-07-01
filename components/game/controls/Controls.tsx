@@ -60,15 +60,18 @@ const onDocumentKeyUp = (event: { which: number; }) => {
 export const ControlUpdate = () => {
     const ref = useRef();
     const store = useStore();
+    const {clock} = store;
+    
     useFrame(() => {
+        const dt = clock.getDelta();
         keysDown.forEach(key => {
             switch (key) {
-                case LEFT: CommandLeft(store); return;
-                case UP: CommandUp(store); return;
-                case DOWN: CommandDown(store); return;
-                case RIGHT: CommandRight(store); return;
-                case E: CommandE(store); return;
-                case Q: CommandQ(store); return;
+                case LEFT: CommandLeft(store, dt); return;
+                case UP: CommandUp(store, dt); return;
+                case DOWN: CommandDown(store, dt); return;
+                case RIGHT: CommandRight(store, dt); return;
+                case E: CommandE(store, dt); return;
+                case Q: CommandQ(store, dt); return;
             }
         });
     });

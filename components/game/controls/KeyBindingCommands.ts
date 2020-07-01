@@ -1,6 +1,4 @@
 import { TStore } from "../../../stores/Store";
-import { PerspectiveCamera } from "three";
-
 
 const GetDirEffect = (movement) => {
     switch (movement) {
@@ -11,10 +9,9 @@ const GetDirEffect = (movement) => {
     }
 }
 
-const MoveDirection = (store: TStore, movement? : string) => {
+const MoveDirection = (store: TStore, movement? : string, dt: number) => {
     
-    const {camera, player} = store;
-    if (!camera || !camera.camera || !player) return;
+    const {camera, player, clock} = store;
 
     let directionEffect = 0;
     if (movement) directionEffect = GetDirEffect(movement);
@@ -26,37 +23,37 @@ const MoveDirection = (store: TStore, movement? : string) => {
     const cPosition = camera.camera.position;
     const pPosition = player.position;
 
-    pPosition.setX(pPosition.x - (direction_x * store.CAMERASPEED));
-    cPosition.setX(cPosition.x - (direction_x * store.CAMERASPEED));
-    pPosition.setZ(pPosition.z - (direction_z * store.CAMERASPEED));
-    cPosition.setZ(cPosition.z - (direction_z * store.CAMERASPEED));
+    pPosition.setX(pPosition.x - (dt * (direction_x * camera.speed)));
+    cPosition.setX(cPosition.x - (dt * (direction_x * camera.speed)));
+    pPosition.setZ(pPosition.z - (dt * (direction_z * camera.speed)));
+    cPosition.setZ(cPosition.z - (dt * (direction_z * camera.speed)));
 }
 
-export const CommandLeft = (store: TStore) => MoveDirection(store, "LEFT");
+export const CommandLeft = (store: TStore, dt: number) => MoveDirection(store, "LEFT", dt);
 
-export const CommandUp = (store: TStore) => MoveDirection(store);
+export const CommandUp = (store: TStore, dt: number) => MoveDirection(store, "FORWARD", dt);
 
-export const CommandRight = (store: TStore) => MoveDirection(store, "RIGHT");
+export const CommandRight = (store: TStore, dt: number) => MoveDirection(store, "RIGHT", dt);
 
-export const CommandDown = (store: TStore) => MoveDirection(store, "BACKWARDS");
+export const CommandDown = (store: TStore, dt: number) => MoveDirection(store, "BACKWARDS", dt);
 
-export const CommandE = (store: TStore) => {
+export const CommandE = (store: TStore, dt: number) => {
     const {camera, player} = store;
     if (!camera || !camera.camera || !player) return;
     const cPosition= camera.camera.position;
     const pPosition = player.position;
 
-    pPosition.setY(pPosition.y + store.CAMERASPEED);
-    cPosition.setY(cPosition.y + store.CAMERASPEED);
+    pPosition.setY(pPosition.y + camera.speed);
+    cPosition.setY(cPosition.y + camera.speed);
 }
 
-export const CommandQ = (store: TStore) => {
+export const CommandQ = (store: TStore, dt: number) => {
     
     const {camera, player} = store;
     if (!camera || !camera.camera || !player) return;
     const cPosition = camera.camera.position;
     const pPosition = player.position;
 
-    pPosition.setY(pPosition.y - store.CAMERASPEED);
-    cPosition.setY(cPosition.y - store.CAMERASPEED);
+    pPosition.setY(pPosition.y - camera.speed);
+    cPosition.setY(cPosition.y - camera.speed);
 }

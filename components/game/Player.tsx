@@ -10,12 +10,13 @@ const Player: FC<any> = (props) => {
     const { setDefaultCamera } = useThree();
     const {camera, player} = store;
     const ref = useRef();
-
+    
     setDefaultCamera(camera.camera);
-
-    if (ref.current) store.setPlayer(ref.current);
-    camera.camera.position.setZ(4);
-    camera.camera.position.setY(1);
+    
+    if (ref.current) store.player.player = ref.current;
+    camera.camera.position.setX(camera.position.x);
+    camera.camera.position.setY(camera.position.y);
+    camera.camera.position.setZ(camera.position.z);
     camera.camera.setRotationFromEuler(camera.rotation);
 
     return (

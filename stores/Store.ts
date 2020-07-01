@@ -1,41 +1,37 @@
 
 import {observable} from 'mobx';
-import { Vector3, Camera, PerspectiveCamera, Mesh, Euler } from 'three';
+import { Vector3, Camera, PerspectiveCamera, Mesh, Euler, Clock } from 'three';
 import { useRef } from 'react';
 
 interface IPlayer {
     position: Vector3,
-    direction: number
+    direction: number,
+    player: Mesh
 }
 
 interface ICamera {
     position: Vector3,
-    rotation: Euler
+    rotation: Euler,
     camera: PerspectiveCamera
+    speed: number
 }
-
-const camera = new PerspectiveCamera() as PerspectiveCamera
 
 export const createStore = () => {
     const store = observable({
 
-        CAMERASPEED: 0.01,
+        clock: new Clock(),
 
-        player: {} as Mesh,
-
-        playerSettings: {
+        player: {
             position: new Vector3(0,0,0),
+            player: {},
             direction: 0
         } as IPlayer,
-
-        setPlayer: (player) => {
-            store.player = player;
-        },
 
         camera: {
             camera: new PerspectiveCamera,
             rotation: new Euler(-0.349066,0,0),
-
+            position: new Vector3(0, 1, 4),
+            speed: 10,
         } as ICamera,
 
         setCamera: (camera) => {
