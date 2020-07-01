@@ -21,7 +21,7 @@ const MoveDirection = (store: TStore, dt: number, movement?: string) => {
     const direction_x = Math.sin(direction);
 
     const cPosition = camera.camera.position;
-    const pPosition = player.position;
+    const pPosition = player.player.position;
 
     pPosition.setX(pPosition.x - (dt * (direction_x * camera.speed)));
     cPosition.setX(cPosition.x - (dt * (direction_x * camera.speed)));
@@ -39,9 +39,8 @@ export const CommandDown = (store: TStore, dt: number) => MoveDirection(store, d
 
 export const CommandE = (store: TStore, dt: number) => {
     const {camera, player} = store;
-    if (!camera || !camera.camera || !player) return;
     const cPosition= camera.camera.position;
-    const pPosition = player.position;
+    const pPosition = player.player.position;
 
     pPosition.setY(pPosition.y + dt * camera.speed);
     cPosition.setY(cPosition.y + dt * camera.speed);
@@ -50,9 +49,8 @@ export const CommandE = (store: TStore, dt: number) => {
 export const CommandQ = (store: TStore, dt: number) => {
     
     const {camera, player} = store;
-    if (!camera || !camera.camera || !player) return;
     const cPosition = camera.camera.position;
-    const pPosition = player.position;
+    const pPosition = player.player.position;
 
     pPosition.setY(pPosition.y - dt * camera.speed);
     cPosition.setY(cPosition.y - dt * camera.speed);
