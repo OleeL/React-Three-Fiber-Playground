@@ -25,6 +25,7 @@ import {
     CommandQ
 } from "./KeyBindingCommands";
 import { LockPointer } from "./PointerLockControls";
+import { TStore } from "../../../stores/Store";
 
 const codeToKey = new Map<number, string>();
 const keysDown: string[] = [];
@@ -57,28 +58,20 @@ const onDocumentKeyUp = (event: { which: number; }) => {
     keysDown.splice(keysDown.indexOf(codeToKey.get(keyCode)), 1);
 };
 
-export const ControlUpdate = () => {
-    const ref = useRef();
-    const store = useStore();
-    const {clock} = store;
-    
-    useFrame(() => {
-        const dt = clock.getDelta();
-        keysDown.forEach(key => {
-            switch (key) {
-                case LEFT: CommandLeft(store, dt); return;
-                case UP: CommandUp(store, dt); return;
-                case DOWN: CommandDown(store, dt); return;
-                case RIGHT: CommandRight(store, dt); return;
-                case E: CommandE(store, dt); return;
-                case Q: CommandQ(store, dt); return;
-            }
-        });
+export const LoopControls = (store: TStore, dt: number) => {
+    keysDown.forEach(key => {
+        switch (key) {
+            case LEFT: CommandLeft(store, dt); return;
+            case UP: CommandUp(store, dt); return;
+            case DOWN: CommandDown(store, dt); return;
+            case RIGHT: CommandRight(store, dt); return;
+            case E: CommandE(store, dt); return;
+            case Q: CommandQ(store, dt); return;
+        }
     });
-    return <mesh ref={ref} />
 }
 
-const Controls = () => {
+const CreateControls = () => {
     const store = useStore();
     RegisterKeyBinds();
     
@@ -90,4 +83,4 @@ const Controls = () => {
     LockPointer(store);
 }
 
-export default Controls;
+export default CreateControls;

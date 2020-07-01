@@ -1,10 +1,11 @@
-import React, { FC } from 'react';
-import { Canvas } from 'react-three-fiber';
+import React, { FC, useRef } from 'react';
+import { Canvas, useFrame } from 'react-three-fiber';
 import styled from 'styled-components';
 import Lights from '../components/game/Light';
 import Models from '../components/game/models/Models';
-import Controls, { ControlUpdate } from '../components/game/controls/Controls';
+import CreateControls, { LoopControls } from '../components/game/controls/Controls';
 import Player from '../components/game/Player';
+import { useStore } from '../stores/StoreContext';
 
 const GameStyle = styled.div`
     position: fixed;
@@ -19,8 +20,18 @@ const GameStyle = styled.div`
     background: grey;
 `
 
+const ControlUpdate = () => {
+    const store = useStore();
+    const ref = useRef();
+    const dt = store.clock.getDelta();
+    useFrame(() => {
+        LoopControls(store, dt);
+    });
+    return <mesh ref={ref} />
+}
+
 const Game: FC = () => {
-    Controls();
+    CreateControls();
     return (
         <GameStyle>
             <Canvas

@@ -31,7 +31,7 @@ export const createStore = () => {
             camera: new PerspectiveCamera,
             rotation: new Euler(-0.349066,0,0),
             position: new Vector3(0, 1, 4),
-            speed: 10,
+            speed: 33,
         } as ICamera,
 
         setCamera: (camera) => {
