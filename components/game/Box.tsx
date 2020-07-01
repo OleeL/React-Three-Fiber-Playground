@@ -1,7 +1,6 @@
 import React, { useState, FC, useRef, forwardRef } from 'react'
 import { useSpring, animated } from 'react-spring/three.cjs'
-import { TStore } from '../../stores/Store';
-import { useStore } from '../../stores/StoreContext';
+
 const material = { transparent: true, roughness: 0.8, fog: true, shininess: 1, flatShading: false }
 
 const Box: FC<any> = forwardRef((props, ref) => {
@@ -11,8 +10,6 @@ const Box: FC<any> = forwardRef((props, ref) => {
         scale: active ? [1.5, 1.5, 1.5] : [1, 1, 1],
         color: hovered ? "orange" : "red"
     });
-
-    
 
     return (
         <group>
