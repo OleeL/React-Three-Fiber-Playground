@@ -9,7 +9,7 @@ const GetDirEffect = (movement) => {
     }
 }
 
-const MoveDirection = (store: TStore, movement? : string, dt: number) => {
+const MoveDirection = (store: TStore, dt: number, movement?: string) => {
     
     const {camera, player, clock} = store;
 
@@ -29,13 +29,13 @@ const MoveDirection = (store: TStore, movement? : string, dt: number) => {
     cPosition.setZ(cPosition.z - (dt * (direction_z * camera.speed)));
 }
 
-export const CommandLeft = (store: TStore, dt: number) => MoveDirection(store, "LEFT", dt);
+export const CommandLeft = (store: TStore, dt: number) => MoveDirection(store, dt, "LEFT");
 
-export const CommandUp = (store: TStore, dt: number) => MoveDirection(store, "FORWARD", dt);
+export const CommandUp = (store: TStore, dt: number) => MoveDirection(store, dt);
+ 
+export const CommandRight = (store: TStore, dt: number) => MoveDirection(store, dt, "RIGHT");
 
-export const CommandRight = (store: TStore, dt: number) => MoveDirection(store, "RIGHT", dt);
-
-export const CommandDown = (store: TStore, dt: number) => MoveDirection(store, "BACKWARDS", dt);
+export const CommandDown = (store: TStore, dt: number) => MoveDirection(store, dt, "BACKWARDS");
 
 export const CommandE = (store: TStore, dt: number) => {
     const {camera, player} = store;
