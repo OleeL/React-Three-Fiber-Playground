@@ -43,8 +43,8 @@ export const CommandE = (store: TStore, dt: number) => {
     const cPosition= camera.camera.position;
     const pPosition = player.position;
 
-    pPosition.setY(pPosition.y + camera.speed);
-    cPosition.setY(cPosition.y + camera.speed);
+    pPosition.setY(pPosition.y + dt * camera.speed);
+    cPosition.setY(cPosition.y + dt * camera.speed);
 }
 
 export const CommandQ = (store: TStore, dt: number) => {
@@ -54,6 +54,6 @@ export const CommandQ = (store: TStore, dt: number) => {
     const cPosition = camera.camera.position;
     const pPosition = player.position;
 
-    pPosition.setY(pPosition.y - camera.speed);
-    cPosition.setY(cPosition.y - camera.speed);
+    pPosition.setY(pPosition.y - dt * camera.speed);
+    cPosition.setY(cPosition.y - dt * camera.speed);
 }
