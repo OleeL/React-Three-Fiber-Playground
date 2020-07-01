@@ -82,7 +82,7 @@ const Controls = () => {
     if (typeof window === "undefined" || typeof document === "undefined") return;
     window.addEventListener("keydown", onDocumentKeyDown, false);
     window.addEventListener("keyup",   onDocumentKeyUp,   false);
-    store.camera.rotation.order = "YXZ"; // this is not the default
+    store.camera.camera.rotation.order = "YXZ"; // this is not the default
 
     LockPointer(store);
 }

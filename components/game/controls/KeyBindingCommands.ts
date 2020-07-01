@@ -14,16 +14,16 @@ const GetDirEffect = (movement) => {
 const MoveDirection = (store: TStore, movement? : string) => {
     
     const {camera, player} = store;
-    if (!camera || player == null) return;
+    if (!camera || !camera.camera || !player) return;
 
     let directionEffect = 0;
     if (movement) directionEffect = GetDirEffect(movement);
-    const direction = camera.rotation.y + directionEffect;
+    const direction = camera.camera.rotation.y + directionEffect;
 
     const direction_z = Math.cos(direction);
     const direction_x = Math.sin(direction);
 
-    const cPosition = camera.position;
+    const cPosition = camera.camera.position;
     const pPosition = player.position;
 
     pPosition.setX(pPosition.x - (direction_x * store.CAMERASPEED));
@@ -41,10 +41,9 @@ export const CommandRight = (store: TStore) => MoveDirection(store, "RIGHT");
 export const CommandDown = (store: TStore) => MoveDirection(store, "BACKWARDS");
 
 export const CommandE = (store: TStore) => {
-
     const {camera, player} = store;
-    if (!camera || player == null) return;
-    const cPosition= camera.position;
+    if (!camera || !camera.camera || !player) return;
+    const cPosition= camera.camera.position;
     const pPosition = player.position;
 
     pPosition.setY(pPosition.y + store.CAMERASPEED);
@@ -54,8 +53,8 @@ export const CommandE = (store: TStore) => {
 export const CommandQ = (store: TStore) => {
     
     const {camera, player} = store;
-    if (!camera || player == null) return;
-    const cPosition = camera.position;
+    if (!camera || !camera.camera || !player) return;
+    const cPosition = camera.camera.position;
     const pPosition = player.position;
 
     pPosition.setY(pPosition.y - store.CAMERASPEED);

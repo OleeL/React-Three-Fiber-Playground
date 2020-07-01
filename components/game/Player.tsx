@@ -1,23 +1,22 @@
 import React, { FC, useRef } from 'react'
-import { Euler } from 'three';
 import Box from './Box';
 import { useStore } from '../../stores/StoreContext';
 import { useThree } from 'react-three-fiber';
 
-const EulerCameraRotation = new Euler(-0.349066,0,0);
+
 
 const Player: FC<any> = (props) => {
-    const { setDefaultCamera } = useThree();
     const store = useStore();
+    const { setDefaultCamera } = useThree();
+    const {camera, player} = store;
     const ref = useRef();
 
-    const camera = store.camera;
-    setDefaultCamera(camera);
+    setDefaultCamera(camera.camera);
 
     if (ref.current) store.setPlayer(ref.current);
-    camera.position.setZ(4);
-    camera.position.setY(1);
-    camera.setRotationFromEuler(EulerCameraRotation);
+    camera.camera.position.setZ(4);
+    camera.camera.position.setY(1);
+    camera.camera.setRotationFromEuler(camera.rotation);
 
     return (
         <group>
@@ -25,7 +24,7 @@ const Player: FC<any> = (props) => {
                 onUpdate={self => self.updateProjectionMatrix()}/>
             <Box
                 ref={ref}
-                position={[0, 0, 0]}/>
+                position={player.position}/>
         </group>
     )
 }
