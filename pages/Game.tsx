@@ -23,9 +23,8 @@ const GameStyle = styled.div`
 const ControlUpdate = () => {
     const store = useStore();
     const ref = useRef();
-    const dt = store.clock.getDelta();
     useFrame(() => {
-        LoopControls(store, dt);
+        LoopControls(store, store.clock.getDelta());
     });
     return <mesh ref={ref} />
 }

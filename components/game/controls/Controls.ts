@@ -13,8 +13,6 @@ import {
     CODEQ
 } from "./KeyBindingConfig";
 
-import { useFrame } from "react-three-fiber";
-import { useRef } from "react";
 import { useStore } from "../../../stores/StoreContext";
 import {
     CommandRight,

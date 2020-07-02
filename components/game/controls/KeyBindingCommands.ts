@@ -13,8 +13,7 @@ const MoveDirection = (store: TStore, dt: number, movement?: string) => {
     
     const {camera, player, clock} = store;
 
-    let directionEffect = 0;
-    if (movement) directionEffect = GetDirEffect(movement);
+    const directionEffect = GetDirEffect(movement);
     const direction = camera.camera.rotation.y + directionEffect;
 
     const direction_z = Math.cos(direction);

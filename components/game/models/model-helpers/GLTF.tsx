@@ -1,8 +1,8 @@
 import { useLoader } from 'react-three-fiber';
-import { GLTFLoader, GLTFParser } from "./GLTFLoader"
 import { FC, Suspense } from 'react';
 import Box from '../../Box';
 import { MeshPhysicalMaterial, Group, Vector3, Euler, MaterialParameters, Object3D } from 'three';
+import { GLTFLoader, GLTFParser } from './GLTFLoader';
 
 interface IModelProps {
     name: string,
