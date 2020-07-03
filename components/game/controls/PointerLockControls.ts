@@ -35,19 +35,18 @@ export const LockPointer = (store: TStore) => {
     document.addEventListener('webkitpointerlockchange', changeCallback, false);
 
     const moveCallback = (e: { movementX: any; movementY: any; }) => {
-        const mouseX = -(e.movementX / window.innerWidth) ;
+        const mouseX = -(e.movementX / window.innerWidth);
         const mouseY = -(e.movementY / window.innerHeight);
         const camera = store.camera;
         const player = store.player.player;
         
-        const direction = camera.rotation.y;
+        const direction = camera.camera.rotation.y;
         const direction_z = Math.cos(direction);
         const direction_x = Math.sin(direction);
+        
+        camera.camera.position.x = player.position.x + direction_x * 3;
+        camera.camera.position.z = player.position.z + direction_z * 3;
 
-        // camera.movementVelocity.xvel += (direction_x * 3);
-        // camera.movementVelocity.zvel += (direction_z * 3);
-
-        console.log(mouseX, mouseY);
         camera.rotationalVelocity.yvel += mouseX * camera.sensitivity.y;
         camera.rotationalVelocity.xvel += mouseY * camera.sensitivity.x;
     }
@@ -64,8 +63,8 @@ export const LoopMouseControl = ( store: TStore, dt: number ) => {
     camera.camera.rotation.x += camera.rotationalVelocity.xvel;
     camera.camera.rotation.z += camera.rotationalVelocity.zvel;
     camera.camera.rotation.y += camera.rotationalVelocity.yvel % 6.28319;
-    if (Math.abs(camera.rotation.y) > 6.28319 ) camera.camera.rotation.y = camera.camera.rotation.y & 6.28319
-    if (Math.abs(camera.rotation.x) > 1.57080 ) camera.camera.rotation.x = Math.max( Math.min(camera.camera.rotation.x, 1.5708), -1.5708);
+    if (Math.abs(camera.camera.rotation.y) > 6.28319 ) camera.camera.rotation.y = camera.camera.rotation.y & 6.28319
+    if (Math.abs(camera.camera.rotation.x) > 1.57080 ) camera.camera.rotation.x = Math.max( Math.min(camera.camera.rotation.x, 1.5708), -1.5708);
 
 	ApplyFriction(camera.movementVelocity, camera.friction, dt);
     ApplyFriction(camera.rotationalVelocity, camera.friction, dt);
