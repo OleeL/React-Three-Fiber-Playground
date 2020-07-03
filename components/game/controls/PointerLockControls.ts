@@ -1,4 +1,4 @@
-import { TStore } from "../../../stores/Store";
+import { TStore, IVelocity } from "../../../stores/Store";
 
 export const LockPointer = (store: TStore) => {
     // check pointerLock support
@@ -37,23 +37,44 @@ export const LockPointer = (store: TStore) => {
     const moveCallback = (e: { movementX: any; movementY: any; }) => {
         const mouseX = -(e.movementX / window.innerWidth) ;
         const mouseY = -(e.movementY / window.innerHeight);
-        const camera = store.camera.camera;
+        const camera = store.camera;
         const player = store.player.player;
-
+        
         const direction = camera.rotation.y;
         const direction_z = Math.cos(direction);
         const direction_x = Math.sin(direction);
 
-        camera.rotation.x = Math.max( Math.min(camera.rotation.x + mouseY, 1.5708), -1.5708);
-        camera.rotation.y += mouseX;
-        
-        camera.position.x += direction_x * 3;
-        camera.position.z += direction_z * 3;
+        // camera.movementVelocity.xvel += (direction_x * 3);
+        // camera.movementVelocity.zvel += (direction_z * 3);
 
-        player.rotation.y += mouseX;
-        if (Math.abs(camera.rotation.y) > 6.28319 )
-            camera.rotation.y = camera.rotation.y % 6.28319;
+        console.log(mouseX, mouseY);
+        camera.rotationalVelocity.yvel += mouseX * camera.sensitivity.y;
+        camera.rotationalVelocity.xvel += mouseY * camera.sensitivity.x;
     }
 }
 
+export const LoopMouseControl = ( store: TStore, dt: number ) => {
+    const camera = store.camera;
+    const player = store.player;
 
+	camera.camera.position.x += camera.movementVelocity.xvel * dt;
+    camera.camera.position.y += camera.movementVelocity.yvel * dt;
+    camera.camera.position.z += camera.movementVelocity.zvel * dt;
+
+    camera.camera.rotation.x += camera.rotationalVelocity.xvel;
+    camera.camera.rotation.z += camera.rotationalVelocity.zvel;
+    camera.camera.rotation.y += camera.rotationalVelocity.yvel % 6.28319;
+    if (Math.abs(camera.rotation.y) > 6.28319 ) camera.camera.rotation.y = camera.camera.rotation.y & 6.28319
+    if (Math.abs(camera.rotation.x) > 1.57080 ) camera.camera.rotation.x = Math.max( Math.min(camera.camera.rotation.x, 1.5708), -1.5708);
+
+	ApplyFriction(camera.movementVelocity, camera.friction, dt);
+    ApplyFriction(camera.rotationalVelocity, camera.friction, dt);
+}
+
+const ApplyFriction = (vector: IVelocity, friction: number, dt: number) => {
+    vector.xvel *= GetFriction(friction, dt);
+    vector.yvel *= GetFriction(friction, dt);
+    vector.zvel *= GetFriction(friction, dt);
+}
+
+const GetFriction = (friction: number, dt: number) => (1 - Math.min(dt*friction, 1))

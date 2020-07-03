@@ -6,6 +6,7 @@ import Models from '../components/game/models/Models';
 import CreateControls, { LoopControls } from '../components/game/controls/Controls';
 import Player from '../components/game/Player';
 import { useStore } from '../stores/StoreContext';
+import { LoopMouseControl } from '../components/game/controls/PointerLockControls';
 
 const GameStyle = styled.div`
     position: fixed;
@@ -24,7 +25,9 @@ const ControlUpdate = () => {
     const store = useStore();
     const ref = useRef();
     useFrame(() => {
-        LoopControls(store, store.clock.getDelta());
+        const dt = store.clock.getDelta();
+        LoopControls(store, dt);
+        LoopMouseControl(store, dt);
     });
     return <mesh ref={ref} />
 }
