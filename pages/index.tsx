@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import Game from './Game';
+import Game from '../components/game/Game';
 
 const index: FC = () => 
     <>

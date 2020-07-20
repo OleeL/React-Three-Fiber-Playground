@@ -1,12 +1,13 @@
 import React, { FC, useRef } from 'react';
 import { Canvas, useFrame } from 'react-three-fiber';
 import styled from 'styled-components';
-import Lights from '../components/game/Light';
-import Models from '../components/game/models/Models';
-import CreateControls, { LoopControls } from '../components/game/controls/Controls';
-import Player from '../components/game/Player';
-import { useStore } from '../stores/StoreContext';
-import { LoopMouseControl } from '../components/game/controls/PointerLockControls';
+import Lights from './Light';
+import Models from './models/Models';
+import CreateControls, { LoopControls } from './controls/Controls';
+import Player from './Player';
+import { useStore } from '../../stores/StoreContext';
+import { LoopMouseControl } from './controls/PointerLockControls';
+import Stats from './Stats';
 
 const GameStyle = styled.div`
     position: fixed;
@@ -21,13 +22,17 @@ const GameStyle = styled.div`
     background: grey;
 `
 
+
 const ControlUpdate = () => {
     const store = useStore();
     const ref = useRef();
-    useFrame(() => {
-        const dt = store.clock.getDelta();
+    let previousTime = 0;
+    useFrame(state => {
+        const time = state.clock.getElapsedTime();
+        const dt = (time - previousTime) / 1000;
         LoopControls(store, dt);
         LoopMouseControl(store, dt);
+        previousTime = time;
     });
     return <mesh ref={ref} />
 }
@@ -46,6 +51,8 @@ const Game: FC = () => {
                 <Player />
                 <Models />
             </Canvas>
+            <Stats />
+
         </GameStyle>
     )
 };
