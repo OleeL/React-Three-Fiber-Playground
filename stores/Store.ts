@@ -1,5 +1,5 @@
 
-import {observable} from 'mobx';
+import {create} from 'zustand';
 import { Vector3, Camera, PerspectiveCamera, Mesh, Euler, Clock, Vector2 } from 'three';
 import { useRef } from 'react';
 import { IEntry } from '../components/game/Stats';
@@ -29,55 +29,49 @@ export interface IVelocity {
     zvel: number
 }
 
-export const createStore = () => {
-    const store = observable({
+export const [useStore, _store] = create(set => ({
+    clock: new Clock(),
 
-        clock: new Clock(),
+    player: {
+        position: new Vector3(0,0,0),
+        player: {},
+        direction: 0
+    } as IPlayer,
 
-        player: {
-            position: new Vector3(0,0,0),
-            player: {},
-            direction: 0
-        } as IPlayer,
+    camera: {
+        camera: new PerspectiveCamera,
+        rotation: new Euler(-0.349066,0,0),
+        position: new Vector3(0, 1, 4),
+        speed: 2000,
+        movementSpeed: 4000,
+        friction: 50,
+        movementVelocity: {
+            xvel: 0,
+            yvel: 0,
+            zvel: 0
+        } as IVelocity,
+        rotationalVelocity: {
+            xvel: 0,
+            yvel: 0,
+            zvel: 0
+        } as IVelocity,
+        sensitivity: new Vector2(2, 1.5),
+        direction: 0
+    } as ICamera,
 
-        camera: {
-            camera: new PerspectiveCamera,
-            rotation: new Euler(-0.349066,0,0),
-            position: new Vector3(0, 1, 4),
-            speed: 2000,
-            movementSpeed: 4000,
-            friction: 50,
-            movementVelocity: {
-                xvel: 0,
-                yvel: 0,
-                zvel: 0
-            } as IVelocity,
-            rotationalVelocity: {
-                xvel: 0,
-                yvel: 0,
-                zvel: 0
-            } as IVelocity,
-            sensitivity: new Vector2(0.2, 0.15),
-            direction: 0
-        } as ICamera,
+    setCamera: (c: ICamera) => set(({camera: c})),
 
-        setCamera: (camera) => {
-            store.camera = camera;
-        },
+    stats: [] as IEntry[],
+    addStats: (entry: IEntry) => set(store => {
+        const search = store.stats.find(s => s.name === entry.name);
+        if (search) {
+            search.value = entry.value;
+            return;
+        }
+        store.stats.push(entry);
+    }),
 
-        stats: [] as IEntry[],
-        addStats: (entry: IEntry) => {
-            const search = store.stats.find(s => s.name === entry.name);
-            if (search) {
-                search.value = entry.value;
-                return;
-            }
-            store.stats.push(entry);
-        },
+    setStats: (stats) => set(({stats: stats}))
+}));
 
-        setStats: (stats) => store.stats = stats
-    });    
-    return store;
-};
-
-export type TStore = ReturnType<typeof createStore>;
+export type State = ReturnType<typeof _store.getState>;

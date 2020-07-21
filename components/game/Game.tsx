@@ -1,25 +1,27 @@
 import React, { FC, useRef } from 'react';
 import { Canvas, useFrame } from 'react-three-fiber';
-import styled from 'styled-components';
 import Lights from './Light';
 import Models from './models/Models';
 import CreateControls, { LoopControls } from './controls/Controls';
 import Player from './Player';
-import { useStore } from '../../stores/StoreContext';
 import { LoopMouseControl } from './controls/PointerLockControls';
 import Stats from './Stats';
+import css from "styled-jsx/css";
+import { useStore } from '../../stores/Store';
 
-const GameStyle = styled.div`
-    position: fixed;
-    padding: 0;
-    margin: 0;
+const GameStyle = css`
+    div {
+        position: fixed;
+        padding: 0;
+        margin: 0;
 
-    top: 0;
-    left: 0;
+        top: 0;
+        left: 0;
 
-    width: 100%;
-    height: 100%;
-    background: grey;
+        width: 100%;
+        height: 100%;
+        background: grey;
+    }
 `
 
 

@@ -1,33 +1,37 @@
 import React, { FC } from 'react';
-import styled from 'styled-components';
-import { useStore } from '../../stores/StoreContext';
 import { useObserver } from 'mobx-react-lite';
+import css from 'styled-jsx/css';
+import { useStore } from '../../stores/Store';
 
 export interface IEntry {
     name: string, 
     value: string
 }
 
-const StatStyle = styled.div`
-    position: fixed;
-    margin: 0;
-    padding: 0px 5px 0px 5px;
-    color: white;
+const StatStyle = css`
+    div {
+        position: fixed;
+        margin: 0;
+        padding: 0px 15px 0px 15px;
+        color: white;
 
-    top: 5px;
-    left: 5px;
+        top: 5px;
+        left: 5px;
 
-    width: 20%;
-    height: 20%;
-    background: rgba(0, 0, 0, 0.5);
-    border-radius: 5px;
+        width: auto;
+        height: auto;
+        background: rgba(0, 0, 0, 0.5);
+        border-radius: 5px;
+    }
 `
 
-const Data = styled.span`
-    font-size: 16px;
-    padding: 2px;
-    border-radius: 4px;
-    background-color: rgb(0,0,0,0.5);
+const Data = css`
+    span {
+        font-size: 16px;
+        padding: 2px;
+        border-radius: 4px;
+        background-color: rgb(0,0,0,0.5);
+    }
 
 `
 
