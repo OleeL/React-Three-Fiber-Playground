@@ -12,8 +12,6 @@ import {
     CODEE,
     CODEQ
 } from "./KeyBindingConfig";
-
-import { useStore } from "../../../stores/StoreContext";
 import {
     CommandRight,
     CommandDown,
@@ -23,7 +21,7 @@ import {
     CommandQ
 } from "./KeyBindingCommands";
 import { LockPointer } from "./PointerLockControls";
-import { TStore } from "../../../stores/Store";
+import { _store, useStore } from "../../../stores/Store";
 
 const codeToKey = new Map<number, string>();
 const keysDown: string[] = [];
@@ -56,29 +54,31 @@ const onDocumentKeyUp = (event: { which: number; }) => {
     keysDown.splice(keysDown.indexOf(codeToKey.get(keyCode)), 1);
 };
 
-export const LoopControls = (store: TStore, dt: number) => {
+export const LoopControls = (dt: number) => {
+    const {player, camera} = _store.getState()
+    
     keysDown.forEach(key => {
         switch (key) {
-            case LEFT: CommandLeft(store, dt); return;
-            case UP: CommandUp(store, dt); return;
-            case DOWN: CommandDown(store, dt); return;
-            case RIGHT: CommandRight(store, dt); return;
-            case E: CommandE(store, dt); return;
-            case Q: CommandQ(store, dt); return;
+            case LEFT: CommandLeft(player, camera, dt); return;
+            case UP: CommandUp(player, camera, dt); return;
+            case DOWN: CommandDown(player, camera, dt); return;
+            case RIGHT: CommandRight(player, camera, dt); return;
+            case E: CommandE(player, camera, dt); return;
+            case Q: CommandQ(player, camera, dt); return;
         }
     });
 }
 
 const CreateControls = () => {
-    const store = useStore();
+    const {camera} = useStore();
     RegisterKeyBinds();
     
     if (typeof window === "undefined" || typeof document === "undefined") return;
     window.addEventListener("keydown", onDocumentKeyDown, false);
     window.addEventListener("keyup",   onDocumentKeyUp,   false);
-    store.camera.camera.rotation.order = "YXZ"; // this is not the default
+    camera.camera.rotation.order = "YXZ"; // this is not the default
 
-    LockPointer(store);
+    LockPointer();
 }
 
 export default CreateControls;

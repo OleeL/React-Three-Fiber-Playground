@@ -4,13 +4,13 @@ import { Vector3, Camera, PerspectiveCamera, Mesh, Euler, Clock, Vector2 } from 
 import { useRef } from 'react';
 import { IEntry } from '../components/game/Stats';
 
-interface IPlayer {
+export interface IPlayer {
     position: Vector3,
     direction: number,
     player: Mesh
 }
 
-interface ICamera {
+export interface ICamera {
     position: Vector3,
     rotation: Euler,
     camera: PerspectiveCamera,
@@ -42,8 +42,8 @@ export const [useStore, _store] = create(set => ({
         camera: new PerspectiveCamera,
         rotation: new Euler(-0.349066,0,0),
         position: new Vector3(0, 1, 4),
-        speed: 2000,
-        movementSpeed: 4000,
+        speed: 20,
+        movementSpeed: 40,
         friction: 50,
         movementVelocity: {
             xvel: 0,
@@ -55,7 +55,7 @@ export const [useStore, _store] = create(set => ({
             yvel: 0,
             zvel: 0
         } as IVelocity,
-        sensitivity: new Vector2(2, 1.5),
+        sensitivity: new Vector2(0.02, 0.015),
         direction: 0
     } as ICamera,
 

@@ -1,5 +1,4 @@
 import React, { FC } from 'react';
-import { useObserver } from 'mobx-react-lite';
 import css from 'styled-jsx/css';
 import { useStore } from '../../stores/Store';
 
@@ -23,31 +22,28 @@ const StatStyle = css`
         background: rgba(0, 0, 0, 0.5);
         border-radius: 5px;
     }
-`
-
-const Data = css`
+    
     span {
         font-size: 16px;
         padding: 2px;
         border-radius: 4px;
         background-color: rgb(0,0,0,0.5);
     }
-
 `
 
 const Stats: FC = () => {
-    const store = useStore();
+    const {stats} = useStore();
+    return (
+        <>
+            <style jsx >{StatStyle} </style>
+            <div>
 
-    return useObserver(() => {
-        const {stats} = store;
-        return (
-            <StatStyle> 
                 {stats.map((e, i) =>
-                    <p key={i}>{e.name}: <Data>{e.value}</Data></p>
+                    <p key={i}>{e.name}: <span>{e.value}</span></p>
                 )}
-            </StatStyle>
-        );
-    });
+            </div>
+        </>
+    );
 };
 
 export default Stats;

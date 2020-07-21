@@ -1,19 +1,18 @@
 import React, { FC, useRef, useEffect } from 'react'
 import Box from './Box';
-import { useStore } from '../../stores/StoreContext';
 import { useThree } from 'react-three-fiber';
+import { useStore } from '../../stores/Store';
 
 const Player: FC<any> = () => {
-    const store = useStore();
     const { setDefaultCamera } = useThree();
-    const {camera, player} = store;
+    const {camera, player} = useStore();
     const ref = useRef();
     
     useEffect(() => {
         setDefaultCamera(camera.camera);
         if (ref.current) {
-            store.player.player = ref.current;
-            store.player.player.rotation.order = "YXZ"; // this is not the default
+            player.player = ref.current;
+            player.player.rotation.order = "YXZ"; // this is not the default
         }
         camera.camera.position.setX(camera.position.x);
         camera.camera.position.setY(camera.position.y);

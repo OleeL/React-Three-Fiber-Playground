@@ -1,4 +1,4 @@
-import { TStore } from "../../../stores/Store";
+import { IPlayer, ICamera } from "../../../stores/Store";
 
 const GetDirEffect = (movement) => {
     switch (movement) {
@@ -9,9 +9,7 @@ const GetDirEffect = (movement) => {
     }
 }
 
-const MoveDirection = (store: TStore, dt: number, movement?: string) => {
-    
-    const {camera, player, clock} = store;
+const MoveDirection = (player: IPlayer, camera: ICamera, dt: number, movement?: string) => {
 
     const directionEffect = GetDirEffect(movement);
     const direction = camera.camera.rotation.y + directionEffect;
@@ -28,16 +26,15 @@ const MoveDirection = (store: TStore, dt: number, movement?: string) => {
     cPosition.setZ(cPosition.z - (dt * (direction_z * camera.speed)));
 }
 
-export const CommandLeft = (store: TStore, dt: number) => MoveDirection(store, dt, "LEFT");
+export const CommandLeft = (player: IPlayer, camera: ICamera, dt: number) => MoveDirection(player, camera, dt, "LEFT");
 
-export const CommandUp = (store: TStore, dt: number) => MoveDirection(store, dt);
+export const CommandUp = (player: IPlayer, camera: ICamera, dt: number) => MoveDirection(player, camera, dt);
  
-export const CommandRight = (store: TStore, dt: number) => MoveDirection(store, dt, "RIGHT");
+export const CommandRight = (player: IPlayer, camera: ICamera, dt: number) => MoveDirection(player, camera, dt, "RIGHT");
 
-export const CommandDown = (store: TStore, dt: number) => MoveDirection(store, dt, "BACKWARDS");
+export const CommandDown = (player: IPlayer, camera: ICamera, dt: number) => MoveDirection(player, camera, dt, "BACKWARDS");
 
-export const CommandE = (store: TStore, dt: number) => {
-    const {camera, player} = store;
+export const CommandE = (player: IPlayer, camera: ICamera, dt: number) => {
     const cPosition= camera.camera.position;
     const pPosition = player.player.position;
 
@@ -45,9 +42,8 @@ export const CommandE = (store: TStore, dt: number) => {
     cPosition.setY(cPosition.y + dt * camera.speed);
 }
 
-export const CommandQ = (store: TStore, dt: number) => {
+export const CommandQ = (player: IPlayer, camera: ICamera, dt: number) => {
     
-    const {camera, player} = store;
     const cPosition = camera.camera.position;
     const pPosition = player.player.position;
 

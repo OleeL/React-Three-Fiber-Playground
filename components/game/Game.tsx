@@ -26,14 +26,13 @@ const GameStyle = css`
 
 
 const ControlUpdate = () => {
-    const store = useStore();
     const ref = useRef();
     let previousTime = 0;
     useFrame(state => {
         const time = state.clock.getElapsedTime();
         const dt = (time - previousTime) / 1000;
-        LoopControls(store, dt);
-        LoopMouseControl(store, dt);
+        LoopControls(dt);
+        LoopMouseControl(dt);
         previousTime = time;
     });
     return <mesh ref={ref} />
@@ -42,7 +41,7 @@ const ControlUpdate = () => {
 const Game: FC = () => {
     CreateControls();
     return (
-        <GameStyle>
+        <div>
             <Canvas
                 concurrent
                 colorManagement
@@ -54,8 +53,8 @@ const Game: FC = () => {
                 <Models />
             </Canvas>
             <Stats />
-
-        </GameStyle>
+            <style jsx>{GameStyle}</style>
+        </div>
     )
 };
 

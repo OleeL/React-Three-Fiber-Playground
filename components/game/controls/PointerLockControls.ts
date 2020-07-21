@@ -1,6 +1,6 @@
-import { IVelocity } from "../../../stores/Store";
+import { IVelocity, _store } from "../../../stores/Store";
 
-export const LockPointer = (store) => {
+export const LockPointer = () => {
     // check pointerLock support
     const havePointerLock = 'pointerLockElement' in document ||
         'mozPointerLockElement' in document ||
@@ -37,7 +37,7 @@ export const LockPointer = (store) => {
     const moveCallback = (e: { movementX: any; movementY: any; }) => {
         const mouseX = -(e.movementX / window.innerWidth);
         const mouseY = -(e.movementY / window.innerHeight);
-        const {camera, player} = store;
+        const {camera, player} = _store.getState();
 
         camera.camera.rotation.y += (mouseX * camera.sensitivity.y);
         camera.camera.rotation.x += (mouseY * camera.sensitivity.x);
@@ -54,16 +54,15 @@ export const LockPointer = (store) => {
     }
 }
 
-export const LoopMouseControl = ( store, dt: number ) => {
-    const camera = store.camera;
+export const LoopMouseControl = ( dt: number ) => {
+    const {addStats, camera} = _store.getState();
 
-    store.addStats({name: "rotation-x", value: camera.camera.rotation.x.toString()});
-    store.addStats({name: "rotation-y", value: camera.camera.rotation.y.toString()});
-    store.addStats({name: "rotation-z", value: camera.camera.rotation.z.toString()});
-
-    store.addStats({name: "camera-pos-x", value: camera.camera.position.x.toString()});
-    store.addStats({name: "camera-pos-y", value: camera.camera.position.y.toString()});
-    store.addStats({name: "camera-pos-z", value: camera.camera.position.z.toString()});
+    addStats({name: "rotation-x", value: camera.camera.rotation.x.toString()});
+    addStats({name: "rotation-y", value: camera.camera.rotation.y.toString()});
+    addStats({name: "rotation-z", value: camera.camera.rotation.z.toString()});
+    addStats({name: "camera-pos-x", value: camera.camera.position.x.toString()});
+    addStats({name: "camera-pos-y", value: camera.camera.position.y.toString()});
+    addStats({name: "camera-pos-z", value: camera.camera.position.z.toString()});
 }
 
 const ApplyFriction = (vector: IVelocity, friction: number, dt: number) => {
