@@ -3,11 +3,11 @@ import css from 'styled-jsx/css';
 import { useStore } from '../../stores/Store';
 
 export interface IEntry {
-    name: string, 
+    name: string,
     value: string
 }
 
-const StatStyle = css`
+const StatisticsStyle = css`
     div {
         position: fixed;
         margin: 0;
@@ -31,19 +31,20 @@ const StatStyle = css`
     }
 `
 
-const Stats: FC = () => {
-    const {stats} = useStore();
+const Statistics: FC = () => {
+    const { stats } = useStore();
     return (
         <>
-            <style jsx >{StatStyle} </style>
             <div>
 
                 {stats.map((e, i) =>
                     <p key={i}>{e.name}: <span>{e.value}</span></p>
                 )}
             </div>
+            <style jsx >{StatisticsStyle} </style>
+
         </>
     );
 };
 
-export default Stats;
+export default Statistics;

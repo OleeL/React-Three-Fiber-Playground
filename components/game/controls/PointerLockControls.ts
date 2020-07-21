@@ -37,7 +37,8 @@ export const LockPointer = () => {
     const moveCallback = (e: { movementX: any; movementY: any; }) => {
         const mouseX = -(e.movementX / window.innerWidth);
         const mouseY = -(e.movementY / window.innerHeight);
-        const {camera, player} = _store.getState();
+        const camera = _store.getState().camera;
+        const player = _store.getState().player;
 
         camera.camera.rotation.y += (mouseX * camera.sensitivity.y);
         camera.camera.rotation.x += (mouseY * camera.sensitivity.x);
@@ -45,7 +46,6 @@ export const LockPointer = () => {
         const direction   = camera.camera.rotation.y;
         const direction_z = Math.cos(direction);
         const direction_x = Math.sin(direction);
-        
 
         camera.camera.position.x = player.player.position.x + (direction_x * 3);
         camera.camera.position.z = player.player.position.z + (direction_z * 3);
@@ -55,7 +55,8 @@ export const LockPointer = () => {
 }
 
 export const LoopMouseControl = ( dt: number ) => {
-    const {addStats, camera} = _store.getState();
+    const addStats = _store.getState().addStats;
+    const camera = _store.getState().camera;
 
     addStats({name: "rotation-x", value: camera.camera.rotation.x.toString()});
     addStats({name: "rotation-y", value: camera.camera.rotation.y.toString()});

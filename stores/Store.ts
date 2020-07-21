@@ -2,7 +2,7 @@
 import {create} from 'zustand';
 import { Vector3, Camera, PerspectiveCamera, Mesh, Euler, Clock, Vector2 } from 'three';
 import { useRef } from 'react';
-import { IEntry } from '../components/game/Stats';
+import { IEntry } from '../components/game/Statistics';
 
 export interface IPlayer {
     position: Vector3,
@@ -15,7 +15,6 @@ export interface ICamera {
     rotation: Euler,
     camera: PerspectiveCamera,
     speed: number,
-    movementSpeed: number,
     friction: number,
     movementVelocity: IVelocity,
     rotationalVelocity: IVelocity,
@@ -29,7 +28,7 @@ export interface IVelocity {
     zvel: number
 }
 
-export const [useStore, _store] = create(set => ({
+export const [useStore, _store] = create((set, get) => ({
     clock: new Clock(),
 
     player: {
@@ -42,8 +41,7 @@ export const [useStore, _store] = create(set => ({
         camera: new PerspectiveCamera,
         rotation: new Euler(-0.349066,0,0),
         position: new Vector3(0, 1, 4),
-        speed: 20,
-        movementSpeed: 40,
+        speed: 10000,
         friction: 50,
         movementVelocity: {
             xvel: 0,
@@ -55,20 +53,20 @@ export const [useStore, _store] = create(set => ({
             yvel: 0,
             zvel: 0
         } as IVelocity,
-        sensitivity: new Vector2(0.02, 0.015),
+        sensitivity: new Vector2(3, 2.5),
         direction: 0
     } as ICamera,
 
     setCamera: (c: ICamera) => set(({camera: c})),
 
     stats: [] as IEntry[],
-    addStats: (entry: IEntry) => set(store => {
-        const search = store.stats.find(s => s.name === entry.name);
+    addStats: (entry: IEntry) => set(() => {
+        const search = get().stats.find(s => s.name === entry.name);
         if (search) {
             search.value = entry.value;
             return;
         }
-        store.stats.push(entry);
+        get().stats.push(entry);
     }),
 
     setStats: (stats) => set(({stats: stats}))

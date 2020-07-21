@@ -55,7 +55,8 @@ const onDocumentKeyUp = (event: { which: number; }) => {
 };
 
 export const LoopControls = (dt: number) => {
-    const {player, camera} = _store.getState()
+    const camera = _store.getState().camera;
+    const player = _store.getState().player;
     
     keysDown.forEach(key => {
         switch (key) {
@@ -70,7 +71,7 @@ export const LoopControls = (dt: number) => {
 }
 
 const CreateControls = () => {
-    const {camera} = useStore();
+    const {camera} = _store.getState();
     RegisterKeyBinds();
     
     if (typeof window === "undefined" || typeof document === "undefined") return;

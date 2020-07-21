@@ -5,9 +5,8 @@ import Models from './models/Models';
 import CreateControls, { LoopControls } from './controls/Controls';
 import Player from './Player';
 import { LoopMouseControl } from './controls/PointerLockControls';
-import Stats from './Stats';
+import Statistics from './Statistics';
 import css from "styled-jsx/css";
-import { useStore } from '../../stores/Store';
 
 const GameStyle = css`
     div {
@@ -52,7 +51,7 @@ const Game: FC = () => {
                 <Player />
                 <Models />
             </Canvas>
-            <Stats />
+            <Statistics />
             <style jsx>{GameStyle}</style>
         </div>
     )
