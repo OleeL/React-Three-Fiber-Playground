@@ -40,8 +40,9 @@ export const LockPointer = () => {
         const camera = _store.getState().camera;
         const player = _store.getState().player;
 
-        camera.camera.rotation.y += (mouseX * camera.sensitivity.y);
+        camera.camera.rotation.y += (mouseX * camera.sensitivity.y) % Math.PI*2;
         camera.camera.rotation.x += (mouseY * camera.sensitivity.x);
+        camera.camera.rotation.x = Math.max(-Math.PI / 2, Math.min(camera.camera.rotation.x, Math.PI / 2))
         
         const direction   = camera.camera.rotation.y;
         const direction_z = Math.cos(direction);
@@ -50,7 +51,7 @@ export const LockPointer = () => {
         camera.camera.position.x = player.player.position.x + (direction_x * 3);
         camera.camera.position.z = player.player.position.z + (direction_z * 3);
         camera.camera.position.y = player.player.position.y + (-camera.camera.rotation.x * 3);
-        
+
     }
 }
 
