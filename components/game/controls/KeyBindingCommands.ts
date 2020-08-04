@@ -36,7 +36,7 @@ export const CommandRight = (player: IPlayer, camera: ICamera, dt: number) => Mo
 export const CommandDown = (player: IPlayer, camera: ICamera, dt: number) => MoveDirection(player, camera, dt, "BACKWARDS");
 
 export const CommandE = (player: IPlayer, camera: ICamera, dt: number) =>
-    player.group.position.setY(player.group.position.y + dt * camera.speed);
+    player.group.position.setY(player.group.position.y + dt * (camera.speed * 0.5));
 
 export const CommandQ = (player: IPlayer, camera: ICamera, dt: number) =>
-    player.group.position.setY(player.group.position.y - dt * camera.speed);
+    player.group.position.setY(player.group.position.y - dt * (camera.speed * 0.5));
