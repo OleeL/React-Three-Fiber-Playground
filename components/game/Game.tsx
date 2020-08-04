@@ -25,7 +25,6 @@ const GameStyle = css`
 
 
 const ControlUpdate = () => {
-    const ref = useRef();
     let previousTime = 0;
     useFrame(state => {
         const time = state.clock.getElapsedTime();
@@ -34,7 +33,7 @@ const ControlUpdate = () => {
         LoopMouseControl(dt);
         previousTime = time;
     });
-    return <mesh ref={ref} />
+    return <mesh />
 }
 
 const Game: FC = () => {
@@ -47,7 +46,6 @@ const Game: FC = () => {
                 id="Canvas">
                 <ControlUpdate />
                 <Lights  />
-                {/* <Camera position={[0, 0, 0]} /> */}
                 <Player />
                 <Models />
             </Canvas>

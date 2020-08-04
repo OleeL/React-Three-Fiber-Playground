@@ -21,9 +21,28 @@ const MoveDirection = (player: IPlayer, camera: ICamera, dt: number, movement?: 
     const pPosition = player.player.position;
 
     pPosition.setX(pPosition.x - (dt * (direction_x * camera.speed)));
-    cPosition.setX(cPosition.x - (dt * (direction_x * camera.speed)));
     pPosition.setZ(pPosition.z - (dt * (direction_z * camera.speed)));
-    cPosition.setZ(cPosition.z - (dt * (direction_z * camera.speed)));
+
+    camera.camera.position.set(
+        player.player.position.x,
+        player.player.position.y,
+        player.player.position.z
+    );
+    
+
+    player.group.position.set(
+        player.player.position.x,
+        player.player.position.y,
+        player.player.position.z
+    )
+
+    camera.camera.position.applyQuaternion(camera.camera.quaternion);
+
+    // camera.camera.quaternion.setFromEuler(camera.euler)
+    // camera.camera.position.applyQuaternion(camera.quaternion);
+
+    // cPosition.setX(cPosition.x - (dt * (direction_x * camera.speed)));
+    // cPosition.setZ(cPosition.z - (dt * (direction_z * camera.speed)));
 }
 
 export const CommandLeft = (player: IPlayer, camera: ICamera, dt: number) => MoveDirection(player, camera, dt, "LEFT");

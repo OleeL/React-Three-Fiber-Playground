@@ -13,6 +13,7 @@ const StatisticsStyle = css`
         margin: 0;
         padding: 0px 15px 0px 15px;
         color: white;
+        line-height: 10px;
 
         top: 5px;
         left: 5px;

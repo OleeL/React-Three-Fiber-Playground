@@ -1,18 +1,20 @@
 
 import {create} from 'zustand';
-import { Vector3, Camera, PerspectiveCamera, Mesh, Euler, Clock, Vector2 } from 'three';
+import { Vector3, Camera, PerspectiveCamera, Mesh, Euler, Clock, Vector2, Quaternion, Sphere, Group } from 'three';
 import { useRef } from 'react';
 import { IEntry } from '../components/game/Statistics';
 
 export interface IPlayer {
     position: Vector3,
     direction: number,
-    player: Mesh
+    player: Mesh,
+    group: Group
 }
 
 export interface ICamera {
     position: Vector3,
-    rotation: Euler,
+    euler: Euler,
+    quaternion: Quaternion,
     camera: PerspectiveCamera,
     speed: number,
     friction: number,
@@ -34,12 +36,14 @@ export const [useStore, _store] = create((set, get) => ({
     player: {
         position: new Vector3(0,0,0),
         player: {},
-        direction: 0
+        direction: 0,
+        group: new Group()
     } as IPlayer,
 
     camera: {
         camera: new PerspectiveCamera,
-        rotation: new Euler(-0.349066,0,0),
+        euler: new Euler(-0.349066,0,0),
+        quaternion: new Quaternion(),
         position: new Vector3(0, 1, 4),
         speed: 10000,
         friction: 50,
