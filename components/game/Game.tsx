@@ -1,12 +1,12 @@
-import React, { FC, useRef } from 'react';
+import React, { FC } from 'react';
 import { Canvas, useFrame } from 'react-three-fiber';
 import Lights from './Light';
 import Models from './models/Models';
 import CreateControls, { LoopControls } from './controls/Controls';
 import Player from './Player';
-import { LoopMouseControl } from './controls/PointerLockControls';
-import Statistics from './Statistics';
+import Statistics, { AddStatistics } from './Statistics';
 import css from "styled-jsx/css";
+import { _store } from '../../stores/Store';
 
 const GameStyle = css`
     div {
@@ -30,7 +30,8 @@ const ControlUpdate = () => {
         const time = state.clock.getElapsedTime();
         const dt = (time - previousTime) / 1000;
         LoopControls(dt);
-        LoopMouseControl(dt);
+        AddStatistics();
+
         previousTime = time;
     });
     return <mesh />

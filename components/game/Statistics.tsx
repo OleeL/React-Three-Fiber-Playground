@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import css from 'styled-jsx/css';
-import { useStore } from '../../stores/Store';
+import { useStore, _store } from '../../stores/Store';
 
 export interface IEntry {
     name: string,
@@ -9,19 +9,13 @@ export interface IEntry {
 
 const StatisticsStyle = css`
     div {
-        position: fixed;
-        margin: 0;
-        padding: 0px 15px 0px 15px;
+        padding: 15px;
         color: white;
-        line-height: 10px;
-
-        top: 5px;
-        left: 5px;
-
+        line-height: 25px;
         width: auto;
         height: auto;
         background: rgba(0, 0, 0, 0.5);
-        border-radius: 5px;
+        border-radius: 0px 0px 5px 5px;
     }
     
     span {
@@ -30,22 +24,91 @@ const StatisticsStyle = css`
         border-radius: 4px;
         background-color: rgb(0,0,0,0.5);
     }
+
+    p { 
+        margin: 0;
+    }
 `
+
+const ButtonStyle = css`
+    div {
+        border-radius: 5px 5px 0px 0px;
+        background-color: rgba(0, 0, 0, 0.75);
+
+        margin: 0;
+        padding: 0px 15px 0px 15px;
+        line-height: 33px;
+        user-select: none; 
+    }
+
+    div:hover {
+        background-color: rgba(50, 50, 50, 0.5);
+    }
+`
+
+const PanelStyle = css`
+    div {
+
+position: fixed;
+        margin: 0;
+        color: white;
+
+        top: 5px;
+        left: 5px;
+    }
+`
+
+const ShowStatsButton = () => {
+    const { toggleShowStats } = useStore();
+    const onClick = (e) => {
+        toggleShowStats();
+        console.log("click");
+    }
+
+    return (
+        <div onClick={onClick} >
+            Toggle Statistics
+            <style jsx>{ButtonStyle}</style>
+        </div>
+    )
+}
 
 const Statistics: FC = () => {
     const { stats } = useStore();
     return (
-        <>
-            <div>
-
-                {stats.map((e, i) =>
-                    <p key={i}>{e.name}: <span>{e.value}</span></p>
-                )}
-            </div>
+        <div>
+            {stats.map((e, i) =>
+                <p key={i}>{e.name}: <span>{e.value}</span></p>
+            )}
             <style jsx >{StatisticsStyle} </style>
-
-        </>
+        </div>
     );
 };
 
-export default Statistics;
+export const AddStatistics = () => {
+    const addStats  = _store.getState().addStats;
+    const camera    = _store.getState().camera;
+    const player    = _store.getState().player;
+    const showStats = _store.getState().showStats;
+
+    if (!showStats) return;
+    addStats({ name: "rotation-x", value: camera.camera.rotation.x.toString() });
+    addStats({ name: "rotation-y", value: camera.camera.rotation.y.toString() });
+    addStats({ name: "player-pos-x", value: player?.player?.position?.x.toString() });
+    addStats({ name: "player-pos-y", value: player?.player?.position?.y.toString() });
+    addStats({ name: "player-pos-z", value: player?.player?.position?.z.toString() });
+}
+
+const StatisticsPanel: FC = () => {
+    const { showStats } = useStore();
+
+    return (
+        <div>
+            <ShowStatsButton />
+            { showStats && <Statistics />}
+            <style jsx >{PanelStyle} </style>
+        </div>
+    );
+}
+
+export default StatisticsPanel;

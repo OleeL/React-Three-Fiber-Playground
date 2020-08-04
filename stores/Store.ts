@@ -1,7 +1,6 @@
 
 import {create} from 'zustand';
-import { Vector3, Camera, PerspectiveCamera, Mesh, Euler, Clock, Vector2, Quaternion, Sphere, Group } from 'three';
-import { useRef } from 'react';
+import { Vector3, PerspectiveCamera, Mesh, Clock, Vector2, Quaternion, Group } from 'three';
 import { IEntry } from '../components/game/Statistics';
 
 export interface IPlayer {
@@ -13,7 +12,6 @@ export interface IPlayer {
 
 export interface ICamera {
     position: Vector3,
-    euler: Euler,
     quaternion: Quaternion,
     camera: PerspectiveCamera,
     speed: number,
@@ -42,7 +40,6 @@ export const [useStore, _store] = create((set, get) => ({
 
     camera: {
         camera: new PerspectiveCamera,
-        euler: new Euler(-0.349066,0,0),
         quaternion: new Quaternion(),
         position: new Vector3(0, 1, 4),
         speed: 10000,
@@ -57,13 +54,18 @@ export const [useStore, _store] = create((set, get) => ({
             yvel: 0,
             zvel: 0
         } as IVelocity,
-        sensitivity: new Vector2(3, 2.5),
+        sensitivity: new Vector2(1, 1),
         direction: 0
     } as ICamera,
 
     setCamera: (c: ICamera) => set(({camera: c})),
 
+    showStats: false,
+
+    toggleShowStats: () => set(s => {s.showStats = !s.showStats}),
+
     stats: [] as IEntry[],
+
     addStats: (entry: IEntry) => set(() => {
         const search = get().stats.find(s => s.name === entry.name);
         if (search) {

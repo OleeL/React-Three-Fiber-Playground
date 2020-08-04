@@ -1,8 +1,7 @@
-import React, { FC, useRef, useEffect } from 'react'
+import React, { FC } from 'react'
 import { _store } from '../../stores/Store';
 import Camera from './Camera';
 import Model from './Model';
-import { useThree } from 'react-three-fiber';
 
 const Player: FC<any> = () =>
     <group  >

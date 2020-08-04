@@ -1,6 +1,5 @@
-import React, { FC, useRef, useEffect } from 'react'
-import Box from './Box';
-import { useStore, _store, ICamera, IPlayer } from '../../stores/Store';
+import React, { FC, useEffect } from 'react'
+import { _store, ICamera, IPlayer } from '../../stores/Store';
 import { useThree } from 'react-three-fiber';
 
 
