@@ -56,7 +56,7 @@ export const [useStore, _store] = create((set, get) => ({
             yvel: 0,
             zvel: 0
         } as IVelocity,
-        sensitivity: new Vector2(1, 1),
+        sensitivity: new Vector2(2, 1.5),
         direction: 0
     } as ICamera,
 
