@@ -17,8 +17,7 @@ const Model: FC<any> = () => {
         <group >
             <Box
                 position={player.position}
-                ref={ref}
-                />
+                ref={ref}/>
         </group>
     )
 }

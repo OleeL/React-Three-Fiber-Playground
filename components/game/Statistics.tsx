@@ -48,8 +48,7 @@ const ButtonStyle = css`
 
 const PanelStyle = css`
     div {
-
-position: fixed;
+        position: fixed;
         margin: 0;
         color: white;
 
@@ -60,9 +59,8 @@ position: fixed;
 
 const ShowStatsButton = () => {
     const { toggleShowStats } = useStore();
-    const onClick = (e) => {
+    const onClick = () => {
         toggleShowStats();
-        console.log("click");
     }
 
     return (
@@ -75,6 +73,7 @@ const ShowStatsButton = () => {
 
 const Statistics: FC = () => {
     const { stats } = useStore();
+    
     return (
         <div>
             {stats.map((e, i) =>
@@ -86,9 +85,9 @@ const Statistics: FC = () => {
 };
 
 export const AddStatistics = () => {
-    const addStats  = _store.getState().addStats;
-    const camera    = _store.getState().camera;
-    const player    = _store.getState().player;
+    const addStats = _store.getState().addStats;
+    const camera = _store.getState().camera;
+    const player = _store.getState().player;
     const showStats = _store.getState().showStats;
 
     if (!showStats) return;
@@ -105,7 +104,7 @@ const StatisticsPanel: FC = () => {
     return (
         <div>
             <ShowStatsButton />
-            { showStats && <Statistics />}
+            {showStats && <Statistics />}
             <style jsx >{PanelStyle} </style>
         </div>
     );
