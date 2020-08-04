@@ -18,31 +18,13 @@ const MoveDirection = (player: IPlayer, camera: ICamera, dt: number, movement?: 
     const direction_x = Math.sin(direction);
 
     const cPosition = camera.camera.position;
-    const pPosition = player.player.position;
+    const pPosition = player.group.position;
 
     pPosition.setX(pPosition.x - (dt * (direction_x * camera.speed)));
     pPosition.setZ(pPosition.z - (dt * (direction_z * camera.speed)));
-
-    camera.camera.position.set(
-        player.player.position.x,
-        player.player.position.y,
-        player.player.position.z
-    );
+    cPosition.set(0,0,3);
     
-
-    player.group.position.set(
-        player.player.position.x,
-        player.player.position.y,
-        player.player.position.z
-    )
-
     camera.camera.position.applyQuaternion(camera.camera.quaternion);
-
-    // camera.camera.quaternion.setFromEuler(camera.euler)
-    // camera.camera.position.applyQuaternion(camera.quaternion);
-
-    // cPosition.setX(cPosition.x - (dt * (direction_x * camera.speed)));
-    // cPosition.setZ(cPosition.z - (dt * (direction_z * camera.speed)));
 }
 
 export const CommandLeft = (player: IPlayer, camera: ICamera, dt: number) => MoveDirection(player, camera, dt, "LEFT");
@@ -54,18 +36,11 @@ export const CommandRight = (player: IPlayer, camera: ICamera, dt: number) => Mo
 export const CommandDown = (player: IPlayer, camera: ICamera, dt: number) => MoveDirection(player, camera, dt, "BACKWARDS");
 
 export const CommandE = (player: IPlayer, camera: ICamera, dt: number) => {
-    const cPosition= camera.camera.position;
-    const pPosition = player.player.position;
-
+    const pPosition = player.group.position;
     pPosition.setY(pPosition.y + dt * camera.speed);
-    cPosition.setY(cPosition.y + dt * camera.speed);
 }
 
 export const CommandQ = (player: IPlayer, camera: ICamera, dt: number) => {
-    
-    const cPosition = camera.camera.position;
-    const pPosition = player.player.position;
-
+    const pPosition = player.group.position;
     pPosition.setY(pPosition.y - dt * camera.speed);
-    cPosition.setY(cPosition.y - dt * camera.speed);
 }

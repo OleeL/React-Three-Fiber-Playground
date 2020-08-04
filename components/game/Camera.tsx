@@ -14,6 +14,7 @@ const Camera: FC = () => {
         setDefaultCamera(camera.camera);
         scene.add(player.group);
         player.group.add(camera.camera);
+        player.group.add(player.player);
     },[]);
 
     return <mesh />
