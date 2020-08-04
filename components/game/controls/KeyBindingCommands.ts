@@ -22,7 +22,7 @@ const MoveDirection = (player: IPlayer, camera: ICamera, dt: number, movement?: 
 
     pPosition.setX(pPosition.x - (dt * (direction_x * camera.speed)));
     pPosition.setZ(pPosition.z - (dt * (direction_z * camera.speed)));
-    cPosition.set(0,0,3);
+    cPosition.set(0,0,camera.distance);
     
     camera.camera.position.applyQuaternion(camera.camera.quaternion);
 }

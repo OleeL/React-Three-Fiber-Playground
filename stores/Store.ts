@@ -14,6 +14,7 @@ export interface ICamera {
     position: Vector3,
     quaternion: Quaternion,
     camera: PerspectiveCamera,
+    distance: number,
     speed: number,
     friction: number,
     movementVelocity: IVelocity,
@@ -42,6 +43,7 @@ export const [useStore, _store] = create((set, get) => ({
         camera: new PerspectiveCamera,
         quaternion: new Quaternion(),
         position: new Vector3(0, 1, 4),
+        distance: 4,
         speed: 10000,
         friction: 50,
         movementVelocity: {

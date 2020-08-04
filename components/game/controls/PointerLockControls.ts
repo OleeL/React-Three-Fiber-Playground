@@ -47,7 +47,7 @@ export const LockPointer = () => {
         cam.rotation.x =
             Math.max(Math.min(cam.rotation.x + (mouseY * camera.sensitivity.x), Math.PI / 2), -Math.PI / 2);
 
-        cam.position.set(0, 0, 3);
+        cam.position.set(0, 0, camera.distance);
         cam.position.applyQuaternion(camera.camera.quaternion);
     }
 }
