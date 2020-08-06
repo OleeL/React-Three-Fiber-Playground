@@ -24,11 +24,18 @@ interface IModel {
     __$?: any[]
 }
 
+//@ts-ignore
+const GetMesh = (elements: []) => elements[Object.keys(elements).find(key => elements[key].type === "Mesh")];
+
 const GLTF: FC<IModelProps | MaterialParameters | Object3D> = ( model ) => {
     const gltf: IModel = useLoader(GLTFLoader, "/models/"+model.name+".glb");
-    // console.log(gltf);
-    const geometry = gltf.__$[3].geometry;
-    const material = gltf.__$[3].material;
+
+    //@ts-ignore
+    const mesh = GetMesh(gltf.nodes);
+    //@ts-ignore
+    const geometry = mesh.geometry;
+    //@ts-ignore
+    const material = mesh.material
     
     return (
         <Suspense fallback = {<Box />}>
