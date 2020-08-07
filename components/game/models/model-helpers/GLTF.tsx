@@ -46,19 +46,16 @@ const GLTF: FC<IModelProps | MaterialParameters | Object3D> = ( model ) => {
 }
 
 const Render: FC<any> = (props) => {
-    console.log("Drawing", props);
     return (
-        <Suspense fallback = {<Box />}>
-            <mesh {...props.model}>
-                <bufferGeometry
-                    {...props?.mesh.geometry}
-                    attach="geometry"/>
-                <meshStandardMaterial
-                    {...props?.mesh.material}
-                    attach="material" 
-                    name="Material" />
-            </mesh>
-        </Suspense>
+        <mesh {...props.model}>
+            <bufferGeometry
+                {...props?.mesh.geometry}
+                attach="geometry"/>
+            <meshStandardMaterial
+                {...props?.mesh.material}
+                attach="material" 
+                name="Material" />
+        </mesh>
     )
 }
 
