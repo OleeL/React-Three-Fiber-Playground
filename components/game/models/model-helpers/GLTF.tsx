@@ -25,26 +25,41 @@ interface IModel {
 }
 
 //@ts-ignore
-const GetMesh = (elements: []) => elements[Object.keys(elements).find(key => elements[key].type === "Mesh")];
+const GetMeshes = (elements: []) => {
+    return Object.keys(elements)
+        .filter(key => elements[key].type === "Mesh")
+        .map(key => elements[key]);
+}
 
 const GLTF: FC<IModelProps | MaterialParameters | Object3D> = ( model ) => {
     const gltf: IModel = useLoader(GLTFLoader, "/models/"+model.name+".glb");
 
     //@ts-ignore
-    const mesh = GetMesh(gltf.nodes);
-    //@ts-ignore
-    const geometry = mesh.geometry;
-    //@ts-ignore
-    const material = mesh.material
-    
+    const meshes: [] = GetMeshes(gltf.nodes);
+    return (
+        <group>
+            {meshes.map((item, index) => 
+                <Render mesh={item} key={index} model={model} />
+            )}
+        </group>
+    );
+}
+
+const Render: FC<any> = (props) => {
+    console.log("Drawing", props);
     return (
         <Suspense fallback = {<Box />}>
-            <mesh {...model}>
-                <bufferGeometry attach="geometry" {...geometry} />
-                <meshStandardMaterial attach="material" {...material} name="Material" />
+            <mesh {...props.model}>
+                <bufferGeometry
+                    {...props?.mesh.geometry}
+                    attach="geometry"/>
+                <meshStandardMaterial
+                    {...props?.mesh.material}
+                    attach="material" 
+                    name="Material" />
             </mesh>
         </Suspense>
-    );
+    )
 }
 
 export default GLTF;

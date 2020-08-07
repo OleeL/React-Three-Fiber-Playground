@@ -7,7 +7,7 @@ const Box: FC<any> = forwardRef((props, ref) => {
     const [hovered, setHovered] = useState(false)
     const [active, setActive] = useState(false)
     const settings = useSpring({
-        scale: active ? [1.5, 1.5, 1.5] : [1, 1, 1],
+        scale: active ? [.5, .5, .5] : [.25, .25, .25],
         color: hovered ? "orange" : "red"
     });
 
