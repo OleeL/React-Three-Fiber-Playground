@@ -1,6 +1,5 @@
 import { useLoader } from 'react-three-fiber';
-import { FC, Suspense } from 'react';
-import Box from '../../Box';
+import { FC } from 'react';
 import { MeshPhysicalMaterial, Group, Vector3, Euler, MaterialParameters, Object3D } from 'three';
 import { GLTFLoader, GLTFParser } from './GLTFLoader';
 
@@ -25,11 +24,9 @@ interface IModel {
 }
 
 //@ts-ignore
-const GetMeshes = (elements: []) => {
-    return Object.keys(elements)
-        .filter(key => elements[key].type === "Mesh")
-        .map(key => elements[key]);
-}
+const GetMeshes = (elements: []) => Object.keys(elements)
+    .filter(key => elements[key].type === "Mesh")
+    .map(key => elements[key]);
 
 const GLTF: FC<IModelProps | MaterialParameters | Object3D> = ( model ) => {
     const gltf: IModel = useLoader(GLTFLoader, "/models/"+model.name+".glb");
@@ -38,25 +35,22 @@ const GLTF: FC<IModelProps | MaterialParameters | Object3D> = ( model ) => {
     const meshes: [] = GetMeshes(gltf.nodes);
     return (
         <group>
-            {meshes.map((item, index) => 
+            {meshes.map((item, index) =>
                 <Render mesh={item} key={index} model={model} />
             )}
         </group>
     );
 }
 
-const Render: FC<any> = (props) => {
-    return (
-        <mesh {...props.model}>
-            <bufferGeometry
-                {...props?.mesh.geometry}
-                attach="geometry"/>
-            <meshStandardMaterial
-                {...props?.mesh.material}
-                attach="material" 
-                name="Material" />
-        </mesh>
-    )
-}
+const Render: FC<any> = (props) => 
+    <mesh {...props.model}>
+        <bufferGeometry
+            {...props?.mesh.geometry}
+            attach="geometry"/>
+        <meshStandardMaterial
+            {...props?.mesh.material}
+            attach="material" 
+            name="Material" />
+    </mesh>
 
 export default GLTF;

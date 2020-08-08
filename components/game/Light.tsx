@@ -4,7 +4,7 @@ import Box from './Box';
 
 const ColorBlack = new Color(0, 0, 0);
 const ColorWhite = new Color(1, 1, 1);
-const arr: [number, number, number] = [-2.5, 5, 2.5]
+const arr: [number, number, number] = [-2.5, 10, 2.5]
 
 const Lights: FC = () => 
     <group>
@@ -17,7 +17,7 @@ const Lights: FC = () =>
         />
         <pointLight
             position={arr}
-            intensity={1}
+            intensity={.5}
         />
     </group>
     

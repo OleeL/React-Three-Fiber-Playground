@@ -7,6 +7,7 @@ import Player from './Player';
 import Statistics, { AddStatistics } from './Statistics';
 import css from "styled-jsx/css";
 import { _store } from '../../stores/Store';
+import Terrain from '../terrain/terrain';
 
 const GameStyle = css`
     div {
@@ -45,6 +46,7 @@ const Game: FC = () => {
                 concurrent
                 colorManagement
                 id="Canvas">
+                <Terrain />
                 <ControlUpdate />
                 <Lights  />
                 <Player />

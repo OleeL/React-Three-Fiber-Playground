@@ -2,13 +2,13 @@ import { FC, Suspense } from "react"
 import Box from "../Box"
 import GLTF from "./model-helpers/GLTF"
 
-const Models: FC = () => 
+const Models: FC = () =>
     <Suspense fallback={<Box />}>
         <GLTF
             name={"embPlane"}
-            position={[0, -1.33, 0]}
+            position={[0, -1.5, 0]}
             scale={[0.2, 0.2, 0.2]}
-            rotation={[1.5708, 0, 0]}
+            rotation={[Math.PI / 2, 0, 0]}
             castShadow
             receiveShadow
         />

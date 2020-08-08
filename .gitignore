@@ -5,6 +5,7 @@
 /.vscode
 /.next
 /.pnp
+/.idea
 .pnp.js
 
 # testing
