@@ -36,7 +36,7 @@ const Terrain = () => {
             position={[0, -1.5, 0]}>
             <planeBufferGeometry
                 attach="geometry"
-                args={[25, 25, 75, 75]} />
+                args={[25, 25, 12, 12]} />
             <meshPhongMaterial
                 attach="material"
                 color={"grey"}
