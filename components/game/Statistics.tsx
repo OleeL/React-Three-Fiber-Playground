@@ -91,11 +91,13 @@ export const AddStatistics = () => {
     const showStats = _store.getState().showStats;
 
     if (!showStats) return;
-    addStats({ name: "rotation-x", value: camera.camera.rotation.x.toString() });
-    addStats({ name: "rotation-y", value: camera.camera.rotation.y.toString() });
-    addStats({ name: "player-pos-x", value: player?.player?.position?.x.toString() });
-    addStats({ name: "player-pos-y", value: player?.player?.position?.y.toString() });
-    addStats({ name: "player-pos-z", value: player?.player?.position?.z.toString() });
+    addStats([
+        { name: "rotation-x", value: camera.camera.rotation.x.toString() } as IEntry,
+        { name: "rotation-y", value: camera.camera.rotation.y.toString() } as IEntry,
+        { name: "player-pos-x", value: player?.group?.position.x.toString() } as IEntry,
+        { name: "player-pos-y", value: player?.group?.position.y.toString() } as IEntry,
+        { name: "player-pos-z", value: player?.group?.position.z.toString() } as IEntry
+    ]);
 }
 
 const StatisticsPanel: FC = () => {

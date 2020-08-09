@@ -68,13 +68,17 @@ export const [useStore, _store] = create((set, get) => ({
 
     stats: [] as IEntry[],
 
-    addStats: (entry: IEntry) => set(() => {
-        const search = get().stats.find(s => s.name === entry.name);
-        if (search) {
-            search.value = entry.value;
-            return;
-        }
-        get().stats.push(entry);
+    addStats: (entries: IEntry[]) => set(() => {
+        const newEntries = [...get().stats];
+        entries.forEach(entry => {
+            const search = newEntries.find(s => s.name === entry.name);
+            if (search) {
+                search.value = entry.value;
+                return;
+            }
+            newEntries.push(entry);
+        })
+        return {stats: newEntries};
     }),
 
     setStats: (stats) => set(({stats: stats}))
