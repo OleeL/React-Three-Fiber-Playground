@@ -3,7 +3,7 @@ import { Color } from "three";
 import { noise } from "./perlin";
 import { useUpdate } from "react-three-fiber";
 
-const specular = new Color("grey");
+const specular = new Color("black");
 
 const Terrain = () => {
 
@@ -39,7 +39,7 @@ const Terrain = () => {
                 args={[25, 25, 12, 12]} />
             <meshPhongMaterial
                 attach="material"
-                color={"grey"}
+                color={"white"}
                 specular={specular}
                 shininess={3}
                 //@ts-ignore

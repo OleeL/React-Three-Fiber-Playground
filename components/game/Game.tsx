@@ -8,6 +8,7 @@ import Statistics, { AddStatistics } from './Statistics';
 import css from "styled-jsx/css";
 import { _store } from '../../stores/Store';
 import Terrain from '../terrain/terrain';
+import Overlay from './Overlay';
 
 const GameStyle = css`
     div {
@@ -20,7 +21,7 @@ const GameStyle = css`
 
         width: 100%;
         height: 100%;
-        background: grey;
+        background: rgb(135, 206, 235);
     }
 `
 
@@ -52,6 +53,7 @@ const Game: FC = () => {
                 <Player />
                 <Models />
             </Canvas>
+            <Overlay /> 
             <Statistics />
             <style jsx>{GameStyle}</style>
         </div>
