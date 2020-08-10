@@ -46,7 +46,7 @@ export const LockPointer = () => {
         cam.rotation.y = mod(cam.rotation.y, Math.PI * 2);
         cam.rotation.x = Math.max(
             Math.min(cam.rotation.x + (mouseY * camera.sensitivity.x),
-                Math.PI / 2),
+                0),
             -Math.PI / 2
         );
 

@@ -1,16 +1,25 @@
 import React, { useRef } from "react";
-import { Color } from "three";
+import { Color, Vector2 } from "three";
 import { noise } from "./perlin";
 import { useUpdate } from "react-three-fiber";
+import { _store, useStore } from "../../stores/Store";
 
 const specular = new Color("black");
 
-const Terrain = () => {
+export const GetChunkX = (x: number, w: number): number => Math.round(x / w);
+export const GetChunkY = (y: number, h: number): number => Math.round(y / h);
+
+const Chunk = () => {
+    const chunk = useStore(state => state.chunk);
+    const { player } = _store.getState().player;
+    const chunkSize = _store.getState().chunkSize;
+
+    console.log(chunk);
 
     const mesh = useUpdate(({ geometry }) => {
         noise.seed(Math.random());
-        let pos = geometry.getAttribute("position");
-        let pa = pos.array;
+        const pos = geometry.getAttribute("position");
+        const pa = pos.array;
         const hVerts = geometry.parameters.heightSegments + 1;
         const wVerts = geometry.parameters.widthSegments + 1;
         for (let j = 0; j < hVerts; j++) {
@@ -36,7 +45,7 @@ const Terrain = () => {
             position={[0, -1.5, 0]}>
             <planeBufferGeometry
                 attach="geometry"
-                args={[25, 25, 12, 12]} />
+                args={[chunkSize, chunkSize, 12, 12]} />
             <meshPhongMaterial
                 attach="material"
                 color={"white"}
@@ -49,4 +58,15 @@ const Terrain = () => {
     );
 };
 
-export default Terrain;
+const Terrain = () => {
+
+
+    return (
+        <group>
+            <Chunk />
+        </group>
+    );
+};
+
+
+export default Chunk;

@@ -4,33 +4,47 @@ import { Vector3, PerspectiveCamera, Mesh, Clock, Vector2, Quaternion, Group } f
 import { IEntry } from '../components/game/Statistics';
 
 export interface IPlayer {
-    position: Vector3,
-    direction: number,
-    player: Mesh,
-    group: Group
+    position: Vector3;
+    direction: number;
+    player: Mesh;
+    group: Group;
 }
 
 export interface ICamera {
-    position: Vector3,
-    quaternion: Quaternion,
-    camera: PerspectiveCamera,
-    distance: number,
-    speed: number,
-    friction: number,
-    movementVelocity: IVelocity,
-    rotationalVelocity: IVelocity,
-    sensitivity: Vector2,
-    direction: number
+    position: Vector3;
+    quaternion: Quaternion;
+    camera: PerspectiveCamera;
+    distance: number;
+    speed: number;
+    friction: number;
+    movementVelocity: IVelocity;
+    rotationalVelocity: IVelocity;
+    sensitivity: Vector2;
+    direction: number;
 }
 
 export interface IVelocity {
-    xvel: number,
-    yvel: number,
-    zvel: number
+    xvel: number;
+    yvel: number;
+    zvel: number;
+}
+
+export interface ISmallVector2 {
+    x: number;
+    y: number;
 }
 
 export const [useStore, _store] = create((set, get) => ({
     clock: new Clock(),
+
+    chunkSize: 25,
+
+    chunk: {
+        x: 0,
+        y: 0
+    } as ISmallVector2,
+
+    setChunk: (chunk: ISmallVector2) => set({chunk: chunk}),
 
     player: {
         position: new Vector3(0,0,0),
