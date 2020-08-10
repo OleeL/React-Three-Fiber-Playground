@@ -1,17 +1,19 @@
-import React, { useRef } from "react";
-import { Color, Vector2 } from "three";
+import React from "react";
+import { Color } from "three";
 import { noise } from "./perlin";
 import { useUpdate } from "react-three-fiber";
-import { _store, useStore } from "../../stores/Store";
+import { _store, useStore, ISmallVector2 } from "../../stores/Store";
 
 const specular = new Color("black");
 
 export const GetChunkX = (x: number, w: number): number => Math.round(x / w);
 export const GetChunkY = (y: number, h: number): number => Math.round(y / h);
 
+const chunksArraySize = 21; // Should be 2n - 1
+let chunkPositions: ISmallVector2[] = [];
+
 const Chunk = () => {
     const chunk = useStore(state => state.chunk);
-    const { player } = _store.getState().player;
     const chunkSize = _store.getState().chunkSize;
 
     console.log(chunk);
@@ -38,23 +40,36 @@ const Chunk = () => {
         pos.needsUpdate = true;
     }, []);
 
+    chunkPositions = [];
+    for (let x = chunk.x - Math.floor(chunksArraySize / 2); x <= chunk.x + Math.floor(chunksArraySize / 2); x++) {
+        for (let y = chunk.y - Math.floor(chunksArraySize / 2); y <= chunk.y + Math.floor(chunksArraySize / 2); y++) {
+            chunkPositions.push({x: x, y: y})
+        }
+    }
+
     return (
-        <mesh
-            ref={mesh}
-            rotation={[-Math.PI / 2, 0, 0]}
-            position={[0, -1.5, 0]}>
-            <planeBufferGeometry
-                attach="geometry"
-                args={[chunkSize, chunkSize, 12, 12]} />
-            <meshPhongMaterial
-                attach="material"
-                color={"white"}
-                specular={specular}
-                shininess={3}
-                //@ts-ignore
-                smoothShading
-            />
-        </mesh>
+        chunkPositions.map((index, key) => {
+            return (
+                <mesh
+                    key={key}
+                    ref={mesh}
+                    rotation={[-Math.PI / 2, 0, 0]}
+                    position={[index.x * chunkSize, -1.5, index.y * chunkSize]}>
+                    <planeBufferGeometry
+                        attach="geometry"
+                        args={[chunkSize, chunkSize, 12, 12]} />
+                    <meshPhongMaterial
+                        attach="material"
+                        color={"white"}
+                        specular={specular}
+                        shininess={3}
+                        //@ts-ignore
+                        smoothShading
+                    />
+                </mesh>
+            )
+        }
+        )
     );
 };
 
