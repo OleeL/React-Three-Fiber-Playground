@@ -1,24 +1,24 @@
-import React, { FC, useRef, useEffect } from 'react'
+import React, { FC, useRef, useEffect, memo, useMemo } from 'react'
 import Box from './Box';
-import { _store, IPlayer } from '../../stores/Store';
+import { _store, IPlayer, useStore } from '../../stores/Store';
+import { useUpdate } from 'react-three-fiber';
+import { Mesh } from 'three';
 
-const Model: FC<any> = () => {
+const Model: FC = () => {
     const player: IPlayer = _store.getState().player;
-    const ref = useRef();
-    
-    useEffect(() => {
-        if (ref.current) {
-            player.player = ref.current;
-            player.player.rotation.order = "YXZ"; // this is not the default
-        }
-    }, []);
 
+    const ref = useUpdate((props: Mesh) => {
+        props.rotation.order = "YXZ"; // this is not the default
+        player.player = props;
+    }, []);
+    
     return (
         <group >
             <Box
                 position={player.position}
-                ref={ref}/>
+                model={ref}/>
         </group>
-    )
+    );
 }
+
 export default Model;

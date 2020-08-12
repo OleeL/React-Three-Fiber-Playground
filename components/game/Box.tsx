@@ -1,9 +1,9 @@
-import React, { useState, FC, useRef, forwardRef } from 'react'
+import React, { useState, FC } from 'react'
 import { useSpring, animated } from 'react-spring/three.cjs'
 
 const material = { transparent: true, roughness: 0.8, fog: true, shininess: 1, flatShading: false }
 
-const Box: FC<any> = forwardRef((props, ref) => {
+const Box: FC<any> = (props) => {
     const [hovered, setHovered] = useState(false)
     const [active, setActive] = useState(false)
     const settings = useSpring({
@@ -20,7 +20,7 @@ const Box: FC<any> = forwardRef((props, ref) => {
                 scale={settings.scale}
                 castShadow
                 receiveShadow
-                ref={ref}
+                ref={props.model}
                 {...props}
                 {...settings}>
                 <animated.boxBufferGeometry
@@ -33,5 +33,6 @@ const Box: FC<any> = forwardRef((props, ref) => {
             </animated.mesh>
         </group>
     )
-});
+};
+
 export default Box;
