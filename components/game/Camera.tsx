@@ -13,6 +13,7 @@ const Camera: FC = () => {
         scene.add(player.group);
         player.group.add(camera.camera);
         player.group.add(player.player);
+        camera.camera.rotation.order = "YXZ"; // this is not the default
         camera.camera.position.set(0, 0, camera.distance);
         camera.camera.position.applyQuaternion(camera.camera.quaternion);
     },[]);

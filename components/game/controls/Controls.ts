@@ -71,14 +71,10 @@ export const LoopControls = (dt: number) => {
 }
 
 const CreateControls = () => {
-    const {camera} = _store.getState();
     RegisterKeyBinds();
-    
     if (typeof window === "undefined" || typeof document === "undefined") return;
     window.addEventListener("keydown", onDocumentKeyDown, false);
     window.addEventListener("keyup",   onDocumentKeyUp,   false);
-    camera.camera.rotation.order = "YXZ"; // this is not the default
-
     LockPointer();
 }
 

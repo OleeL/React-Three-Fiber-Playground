@@ -32,7 +32,7 @@ const MoveDirection = (player: IPlayer, camera: ICamera, dt: number, movement?: 
     const cX = GetChunkX(pPosition.x, 25);
     const cY = GetChunkY(pPosition.z, 25);
 
-    if (chunk.x !== cX || chunk.y !== cY) setChunk({x: cX, y: cY});
+    if (chunk.x !== cX || chunk.y !== cY) setChunk(cX, cY);
 
     pPosition.setX(pPosition.x - (dt * (direction_x * camera.speed)));
     pPosition.setZ(pPosition.z - (dt * (direction_z * camera.speed)));

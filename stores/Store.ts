@@ -44,7 +44,7 @@ export const [useStore, _store] = create((set, get) => ({
         y: 0
     } as ISmallVector2,
 
-    setChunk: (chunk: ISmallVector2) => set({chunk: chunk}),
+    setChunk: (x: number, y: number) => set({chunk: {x: x, y: y}}),
 
     player: {
         position: new Vector3(0,0,0),
