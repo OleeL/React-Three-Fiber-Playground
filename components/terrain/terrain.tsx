@@ -12,7 +12,7 @@ export const GetChunkY = (y: number, h: number): number => Math.round(y / h);
 const chunksArraySize = 21; // Should be 2n - 1
 let chunkPositions: ISmallVector2[] = [];
 
-const Chunk = () => {
+const Terrain = () => {
     const chunk = useStore(state => state.chunk);
     const chunkSize = _store.getState().chunkSize;
 
@@ -48,40 +48,41 @@ const Chunk = () => {
     }
 
     return (
-        chunkPositions.map((index, key) => {
-            return (
-                <mesh
-                    key={key}
-                    ref={mesh}
-                    rotation={[-Math.PI / 2, 0, 0]}
-                    position={[index.x * chunkSize, -1.5, index.y * chunkSize]}>
-                    <planeBufferGeometry
-                        attach="geometry"
-                        args={[chunkSize, chunkSize, 12, 12]} />
-                    <meshPhongMaterial
-                        attach="material"
-                        color={"white"}
-                        specular={specular}
-                        shininess={3}
-                        //@ts-ignore
-                        smoothShading
-                    />
-                </mesh>
-            )
-        }
-        )
-    );
-};
-
-const Terrain = () => {
-
-
-    return (
         <group>
-            <Chunk />
+            {
+                chunkPositions.map((index, key) =>
+                    <mesh
+                        key={key}
+                        ref={mesh}
+                        rotation={[-Math.PI / 2, 0, 0]}
+                        position={[index.x * chunkSize, -1.5, index.y * chunkSize]}>
+                        <planeBufferGeometry
+                            attach="geometry"
+                            args={[chunkSize, chunkSize, 12, 12]} />
+                        <meshPhongMaterial
+                            attach="material"
+                            color={"white"}
+                            specular={specular}
+                            shininess={3}
+                            //@ts-ignore
+                            smoothShading
+                        />
+                    </mesh>
+                )
+            }
         </group>
     );
 };
 
+// const Terrain = () => {
 
-export default Chunk;
+
+//     return (
+//         <group>
+//             <Chunk />
+//         </group>
+//     );
+// };
+
+
+export default Terrain;
