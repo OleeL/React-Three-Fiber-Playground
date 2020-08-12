@@ -27,11 +27,13 @@ const GameStyle = css`
 
 
 const ControlUpdate = () => {
+    const {player, camera} = _store.getState();
     let previousTime = 0;
+    
     useFrame(state => {
         const time = state.clock.getElapsedTime();
         const dt = (time - previousTime) / 1000;
-        LoopControls(dt);
+        LoopControls(dt, player, camera);
         AddStatistics();
 
         previousTime = time;

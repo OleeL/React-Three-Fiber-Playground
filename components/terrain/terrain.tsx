@@ -62,14 +62,12 @@ const Chunk: FC<ITerrainData> = ({ chunk, chunkSize }) => {
     );
 };
 
-const Terrain = () => {
+noise.seed(sessionSeed)
 
-    useEffect(() => noise.seed(sessionSeed), []);
+const Terrain = () => {
 
     const [chunk] = useStore(state => [state.chunk], shallow);
     const chunkSize = _store.getState().chunkSize;
-
-    console.log("chunk");
     const chunkPositions: ISmallVector2[] = useMemo(() => {
         const chunkPositions = [];
         for (let x = chunk.x - Math.floor(renderDistance / 2); x <= chunk.x + Math.floor(renderDistance / 2); x++) {

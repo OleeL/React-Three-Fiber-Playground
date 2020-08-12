@@ -1,6 +1,6 @@
-import React, { FC, useRef, useEffect, memo, useMemo } from 'react'
+import React, { FC } from 'react'
 import Box from './Box';
-import { _store, IPlayer, useStore } from '../../stores/Store';
+import { _store, IPlayer } from '../../stores/Store';
 import { useUpdate } from 'react-three-fiber';
 import { Mesh } from 'three';
 
@@ -8,16 +8,15 @@ const Model: FC = () => {
     const player: IPlayer = _store.getState().player;
 
     const ref = useUpdate((props: Mesh) => {
+        if (!ref.current) return;
         props.rotation.order = "YXZ"; // this is not the default
         player.player = props;
     }, []);
     
     return (
-        <group >
-            <Box
-                position={player.position}
-                model={ref}/>
-        </group>
+        <Box
+            position={player.position}
+            model={ref}/>
     );
 }
 

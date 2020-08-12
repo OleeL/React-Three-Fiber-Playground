@@ -10,8 +10,7 @@ export const LockPointer = () => {
 
     // Gets canvas by id (TO DO: USE A REF)
     const requestedElement = document.getElementById("Canvas");
-    requestedElement.requestPointerLock = requestedElement.requestPointerLock
-    document.exitPointerLock = document.exitPointerLock
+    document.exitPointerLock = document.exitPointerLock;
 
     const isLocked = () => requestedElement === document.pointerLockElement
 
