@@ -58,7 +58,7 @@ const PanelStyle = css`
 `
 
 const ShowStatsButton = () => {
-    const { toggleShowStats } = useStore();
+    const toggleShowStats = useStore(state => state.toggleShowStats);
     const onClick = () => {
         toggleShowStats();
     }
@@ -72,7 +72,7 @@ const ShowStatsButton = () => {
 }
 
 const Statistics: FC = () => {
-    const { stats } = useStore();
+    const stats = useStore(state => state.stats);
     
     return (
         <div>
@@ -101,7 +101,7 @@ export const AddStatistics = () => {
 }
 
 const StatisticsPanel: FC = () => {
-    const { showStats } = useStore();
+    const showStats = useStore(state => state.showStats);
 
     return (
         <div>
