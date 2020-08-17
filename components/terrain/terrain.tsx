@@ -1,5 +1,5 @@
 import React, { FC, useMemo, useEffect } from "react";
-import { Color } from "three";
+import { Color, DoubleSide } from "three";
 import { noise } from "./perlin";
 import { useUpdate } from "react-three-fiber";
 import { _store, useStore, ISmallVector2 } from "../../stores/Store";
@@ -11,7 +11,7 @@ const sessionSeed = Math.random();
 export const GetChunkX = (x: number, w: number): number => Math.round(x / w);
 export const GetChunkY = (y: number, h: number): number => Math.round(y / h);
 
-const renderDistance = 5; // Should be 2n - 1
+const renderDistance = 11; // Should be 2n - 1
 
 interface ITerrainData {
     chunkSize: number;
@@ -35,7 +35,7 @@ const Chunk: FC<ITerrainData> = ({ chunk, chunkSize }) => {
                         + noise.simplex2((i + x + 400) / 25, (j + y) / 25) * Math.pow(ex, 2)
                         + noise.simplex2((i + x + 600) / 12.5, (j + y) / 12.5) * Math.pow(ex, 3)
                         + noise.simplex2((i + x + 800) / 6.25, (j + y) / 6.25) * Math.pow(ex, 4)
-                    ) / 2;
+                    ) / 1.5;
             }
         }
 
@@ -49,12 +49,12 @@ const Chunk: FC<ITerrainData> = ({ chunk, chunkSize }) => {
             position={[chunk.x * chunkSize, -1.5, chunk.y * chunkSize]}>
             <planeBufferGeometry
                 attach="geometry"
-                args={[chunkSize, chunkSize, 12, 12]} />
+                args={[chunkSize, chunkSize, chunkSize, chunkSize]} />
             <meshPhongMaterial
                 attach="material"
                 color={"white"}
                 specular={specular}
-                shininess={3}
+                shininess={0}
                 //@ts-ignore
                 smoothShading
             />
