@@ -21,7 +21,6 @@ import {
     CommandQ
 } from "./KeyBindingCommands";
 import { LockPointer } from "./PointerLockControls";
-import { _store } from "../../../stores/Store";
 
 const codeToKey = new Map<number, string>();
 const keysDown: string[] = [];

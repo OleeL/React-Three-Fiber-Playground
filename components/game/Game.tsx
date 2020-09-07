@@ -6,7 +6,7 @@ import CreateControls, { LoopControls } from './controls/Controls';
 import Player from './Player';
 import Statistics, { AddStatistics } from './Statistics';
 import css from "styled-jsx/css";
-import { _store } from '../../stores/Store';
+import { useStore } from '../../stores/Store';
 import Terrain from '../terrain/terrain';
 import Overlay from './Overlay';
 
@@ -27,9 +27,9 @@ const GameStyle = css`
 
 
 const ControlUpdate = () => {
-    const {player, camera} = _store.getState();
+    const { player, camera } = useStore.getState();
     let previousTime = 0;
-    
+
     useFrame(state => {
         const time = state.clock.getElapsedTime();
         const dt = (time - previousTime) / 1000;
@@ -51,11 +51,11 @@ const Game: FC = () => {
                 id="Canvas">
                 <Terrain />
                 <ControlUpdate />
-                <Lights  />
+                <Lights />
                 <Player />
                 <Models />
             </Canvas>
-            <Overlay /> 
+            <Overlay />
             <Statistics />
             <style jsx>{GameStyle}</style>
         </div>

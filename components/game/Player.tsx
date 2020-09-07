@@ -1,9 +1,8 @@
-import React, { FC } from 'react'
-import { _store } from '../../stores/Store';
+import React from 'react'
 import Camera from './Camera';
 import Model from './Model';
 
-const Player: FC<any> = () =>
+const Player = () =>
     <group  >
         <Model />
         <Camera />

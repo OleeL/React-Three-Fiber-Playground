@@ -1,5 +1,5 @@
 
-import {create} from 'zustand';
+import create from 'zustand';
 import { Vector3, PerspectiveCamera, Mesh, Clock, Vector2, Quaternion, Group } from 'three';
 import { IEntry } from '../components/game/Statistics';
 
@@ -34,7 +34,22 @@ export interface ISmallVector2 {
     y: number;
 }
 
-export const [useStore, _store] = create((set, get) => ({
+export type TStore = {
+    clock: Clock;
+    chunkSize: number;
+    chunk: ISmallVector2;
+    setChunk: (x: number, y: number) => void;
+    player: IPlayer;
+    camera: ICamera;
+    setCamera: (c: ICamera) => void
+    showStats: boolean;
+    toggleShowStats: () => void;
+    stats: IEntry[];
+    addStats: (entries: IEntry[]) => void;
+    setStats: (stats: IEntry[]) => void;
+}
+
+export const useStore = create<TStore>(set => ({
     clock: new Clock(),
 
     chunkSize: 25,
@@ -44,10 +59,10 @@ export const [useStore, _store] = create((set, get) => ({
         y: 0
     } as ISmallVector2,
 
-    setChunk: (x: number, y: number) => set({chunk: {x: x, y: y}}),
+    setChunk: (x: number, y: number) => set({ chunk: { x: x, y: y } }),
 
     player: {
-        position: new Vector3(0,0,0),
+        position: new Vector3(0, 0, 0),
         player: {},
         direction: 0,
         group: new Group()
@@ -73,17 +88,12 @@ export const [useStore, _store] = create((set, get) => ({
         sensitivity: new Vector2(2, 1.5),
         direction: 0
     } as ICamera,
-
-    setCamera: (c: ICamera) => set(({camera: c})),
-
+    setCamera: (c: ICamera) => set(({ camera: c })),
     showStats: false,
-
-    toggleShowStats: () => set(s => {s.showStats = !s.showStats}),
-
+    toggleShowStats: () => set(s => ({ showStats: !s.showStats })),
     stats: [] as IEntry[],
-
-    addStats: (entries: IEntry[]) => set(() => {
-        const newEntries = [...get().stats];
+    addStats: (entries: IEntry[]) => set(s => {
+        const newEntries = [...s.stats];
         entries.forEach(entry => {
             const search = newEntries.find(s => s.name === entry.name);
             if (search) {
@@ -92,10 +102,8 @@ export const [useStore, _store] = create((set, get) => ({
             }
             newEntries.push(entry);
         })
-        return {stats: newEntries};
+        return { stats: newEntries };
     }),
 
-    setStats: (stats) => set(({stats: stats}))
+    setStats: (stats: IEntry[]) => set(({ stats: stats }))
 }));
-
-export type State = ReturnType<typeof _store.getState>;

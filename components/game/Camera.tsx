@@ -1,10 +1,10 @@
 import React, { FC, useEffect } from 'react'
-import { _store, ICamera, IPlayer } from '../../stores/Store';
+import { ICamera, IPlayer, useStore } from '../../stores/Store';
 import { useThree } from 'react-three-fiber';
 
 const Camera: FC = () => {
-    const camera: ICamera = _store.getState().camera;
-    const player: IPlayer = _store.getState().player;
+    const camera: ICamera = useStore.getState().camera;
+    const player: IPlayer = useStore.getState().player;
 
     const { setDefaultCamera, scene } = useThree();
 

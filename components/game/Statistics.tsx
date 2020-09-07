@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import css from 'styled-jsx/css';
-import { useStore, _store } from '../../stores/Store';
+import { useStore } from '../../stores/Store';
 
 export interface IEntry {
     name: string,
@@ -85,10 +85,10 @@ const Statistics: FC = () => {
 };
 
 export const AddStatistics = () => {
-    const addStats = _store.getState().addStats;
-    const camera = _store.getState().camera;
-    const player = _store.getState().player;
-    const showStats = _store.getState().showStats;
+    const addStats = useStore.getState().addStats;
+    const camera = useStore.getState().camera;
+    const player = useStore.getState().player;
+    const showStats = useStore.getState().showStats;
 
     if (!showStats) return;
     addStats([

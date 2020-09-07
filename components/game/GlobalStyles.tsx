@@ -26,11 +26,13 @@ const Dark: IColorScheme = {
     color:           "#ffffff"  //white
 }
 
-export const [useColorStore, _colorStore] = create (set => ({
+type TColorStore = {
+    Selected: IColorScheme
+}
+
+export const useColorStore = create<TColorStore>(set => ({
     Selected: Dark,
 }));
-
-export type State = ReturnType<typeof _colorStore.getState>;
 
 const GlobalStyles = css.global`
 

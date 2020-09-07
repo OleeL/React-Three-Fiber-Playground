@@ -1,4 +1,4 @@
-import { _store, ICamera } from "../../../stores/Store";
+import { useStore, ICamera } from "../../../stores/Store";
 import { PerspectiveCamera } from "three"
 import { mod } from "../../../helpers/vectors";
 
@@ -38,7 +38,7 @@ export const LockPointer = () => {
     const moveCallback = (e: { movementX: any; movementY: any; }) => {
         const mouseX = -(e.movementX / window.innerWidth);
         const mouseY = -(e.movementY / window.innerHeight);
-        const camera: ICamera = _store.getState().camera;
+        const camera: ICamera = useStore.getState().camera;
         const cam: PerspectiveCamera = camera.camera;
 
         cam.rotation.y += mouseX * camera.sensitivity.y;

@@ -2,7 +2,7 @@ import React, { FC, useMemo, useEffect } from "react";
 import { Color, DoubleSide } from "three";
 import { noise } from "./perlin";
 import { useUpdate } from "react-three-fiber";
-import { _store, useStore, ISmallVector2 } from "../../stores/Store";
+import { useStore, ISmallVector2 } from "../../stores/Store";
 import shallow from 'zustand/shallow';
 
 const specular = new Color("black");
@@ -67,7 +67,7 @@ noise.seed(sessionSeed)
 const Terrain = () => {
 
     const [chunk] = useStore(state => [state.chunk], shallow);
-    const chunkSize = _store.getState().chunkSize;
+    const chunkSize = useStore.getState().chunkSize;
     const chunkPositions: ISmallVector2[] = useMemo(() => {
         const chunkPositions = [];
         for (let x = chunk.x - Math.floor(renderDistance / 2); x <= chunk.x + Math.floor(renderDistance / 2); x++) {

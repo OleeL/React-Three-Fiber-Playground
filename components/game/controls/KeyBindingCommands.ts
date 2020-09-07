@@ -1,4 +1,4 @@
-import { IPlayer, ICamera, _store } from "../../../stores/Store";
+import { IPlayer, ICamera, useStore } from "../../../stores/Store";
 import { GetChunkX, GetChunkY } from "../../terrain/terrain";
 
 const GetDirEffect = (movement: direction) => {
@@ -18,7 +18,7 @@ enum direction {
 
 
 const MoveDirection = (player: IPlayer, camera: ICamera, dt: number, movement?: direction) => {
-    const { chunk, setChunk } = _store.getState();
+    const { chunk, setChunk } = useStore.getState();
 
     const directionEffect = GetDirEffect(movement);
     const direction = camera.camera.rotation.y + directionEffect;
