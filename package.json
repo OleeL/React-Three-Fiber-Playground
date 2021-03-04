@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "drei": "^1.4.0",
-    "next": "9.5.3",
+    "next": "9.5.4",
     "react": "0.0.0-experimental-94c0244ba",
     "react-dom": "0.0.0-experimental-94c0244ba",
     "react-spring": "^8.0.27",
