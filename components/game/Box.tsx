@@ -1,5 +1,5 @@
 import React, { useState, FC } from 'react'
-import { useSpring, animated } from 'react-spring/three.cjs'
+import { useSpring, animated } from '@react-spring/three'
 
 const material = { transparent: true, roughness: 0.8, fog: true, shininess: 1, flatShading: false }
 

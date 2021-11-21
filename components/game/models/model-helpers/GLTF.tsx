@@ -1,7 +1,8 @@
-import { useLoader } from 'react-three-fiber';
+import { useLoader } from '@react-three/fiber';
 import { FC } from 'react';
 import { MeshPhysicalMaterial, Group, Vector3, Euler, MaterialParameters, Object3D } from 'three';
 import { GLTFLoader, GLTFParser } from './GLTFLoader';
+import { useGLTF } from '@react-three/drei'
 
 interface IModelProps {
     name: string,
@@ -29,10 +30,15 @@ const GetMeshes = (elements: []) => Object.keys(elements)
     .map(key => elements[key]);
 
 const GLTF: FC<IModelProps | MaterialParameters | Object3D> = ( model ) => {
-    const gltf: IModel = useLoader(GLTFLoader, "/models/"+model.name+".glb");
+    //const gltf: IModel = useLoader(GLTFLoader, "/models/"+model.name+".glb");
+    const url = "/models/"+model.name+".glb";
 
     //@ts-ignore
-    const meshes: [] = GetMeshes(gltf.nodes);
+    const {nodes} = useGLTF(url);
+    
+
+    //@ts-ignore
+    const meshes: [] = GetMeshes(nodes);
     return (
         <group>
             {meshes.map((item, index) =>

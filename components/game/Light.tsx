@@ -1,6 +1,6 @@
 import React, { FC, useEffect } from 'react'
 import { Color, FogExp2 } from 'three';
-import { useThree } from 'react-three-fiber';
+import { useThree } from '@react-three/fiber';
 
 const ColorBlack = new Color(0, 0, 0);
 const ColorWhite = new Color(1, 1, 1);

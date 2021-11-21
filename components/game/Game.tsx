@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { Canvas, useFrame } from 'react-three-fiber';
+import { Canvas, useFrame } from '@react-three/fiber';
 import Lights from './Light';
 import Models from './models/Models';
 import CreateControls, { LoopControls } from './controls/Controls';
@@ -46,8 +46,8 @@ const Game: FC = () => {
     return (
         <div>
             <Canvas
-                concurrent
-                colorManagement
+                mode="concurrent"
+                linear
                 id="Canvas">
                 <Terrain />
                 <ControlUpdate />
