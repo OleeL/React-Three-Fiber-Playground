@@ -1,7 +1,6 @@
 import { useLoader } from '@react-three/fiber';
 import { FC } from 'react';
 import { MeshPhysicalMaterial, Group, Vector3, Euler, MaterialParameters, Object3D } from 'three';
-import { GLTFLoader, GLTFParser } from './GLTFLoader';
 import { useGLTF } from '@react-three/drei'
 
 interface IModelProps {
@@ -17,7 +16,6 @@ interface IModel {
     asset: object,
     cameras: any[],
     materials?: MeshPhysicalMaterial,
-    parser: GLTFParser,
     scene: Group,
     scenes: Group[],
     userData: {},

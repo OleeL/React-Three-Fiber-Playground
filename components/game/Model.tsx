@@ -1,22 +1,23 @@
-import React, { FC, useLayoutEffect } from 'react'
+import React, { FC, useEffect, useRef } from 'react'
 import Box from './Box';
 import { useStore, IPlayer } from '../../stores/Store';
-import { useFrame, useThree } from '@react-three/fiber';
-import { Mesh } from 'three';
+
+const OnUpdate = (e: any, player: IPlayer) => {
+    e.rotation.order = "YXZ"; // this is not the default
+    player.player = e;
+}
 
 const Model: FC = () => {
     const player: IPlayer = useStore.getState().player;
 
-    let ref = null;
+    const ref = useRef();
+    useEffect(() => {
 
-    useLayoutEffect(() => {
-        if (!ref?.current) return;
-        ref.rotation.order = "YXZ"; // this is not the default
-        player.player = ref;
-    });
+    }, []);
     
     return (
         <Box
+            onUpdate={e => OnUpdate(e, player)}
             position={player.position}
             model={ref}/>
     );
