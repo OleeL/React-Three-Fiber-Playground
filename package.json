@@ -10,19 +10,35 @@
     "export": "next export"
   },
   "dependencies": {
-    "@react-spring/three": "^9.6.1",
-    "@react-three/drei": "^9.53.1",
-    "@react-three/fiber": "^8.10.0",
-    "next": "^13.1.2",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
+    "@react-spring/three": "^9.7.3",
+    "@react-three/drei": "^9.108.1",
+    "@react-three/fiber": "^8.16.8",
+    "next": "^14.2.4",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "styled-jsx": "^5.1.6",
     "three": "^0.148.0",
-    "zustand": "^3.1.0"
+    "zustand": "^4.5.4"
   },
   "devDependencies": {
-    "@types/node": "^18.11.18",
-    "@types/react": "^18.0.27",
-    "@types/three": "^0.148.0",
-    "typescript": "^4.9.4"
+    "@eslint/compat": "^1.1.0",
+    "@eslint/js": "^9.6.0",
+    "@types/node": "^20.14.9",
+    "@types/react": "^18.3.3",
+    "@types/three": "^0.166.0",
+    "@typescript-eslint/eslint-plugin": "^6.14.0",
+    "@typescript-eslint/parser": "^6.14.0",
+    "eslint": "^8.55.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-next": "13.1.1",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-import": "2.26.0",
+    "eslint-plugin-next": "^0.0.0",
+    "eslint-plugin-prettier": "^5.0.1",
+    "globals": "^15.8.0",
+    "prettier": "^3.1.1",
+    "sass": "^1.69.5",
+    "sass-loader": "^13.3.2",
+    "typescript": "^5.5.3"
   }
 }

@@ -1,115 +1,127 @@
 import React, { FC } from 'react';
 import css from 'styled-jsx/css';
-import { useStore } from '../../stores/Store';
-
-export interface IEntry {
-    name: string,
-    value: string
-}
+import { IEntry, useStore } from '../../stores/Store';
 
 const StatisticsStyle = css`
-    div {
-        padding: 15px;
-        color: white;
-        line-height: 25px;
-        width: auto;
-        height: auto;
-        background: rgba(0, 0, 0, 0.5);
-        border-radius: 0px 0px 5px 5px;
-    }
-    
-    span {
-        font-size: 16px;
-        padding: 2px;
-        border-radius: 4px;
-        background-color: rgb(0,0,0,0.5);
-    }
+	div {
+		padding: 15px;
+		color: white;
+		line-height: 25px;
+		width: auto;
+		height: auto;
+		background: rgba(0, 0, 0, 0.5);
+		border-radius: 0px 0px 5px 5px;
+	}
 
-    p { 
-        margin: 0;
-    }
-`
+	span {
+		font-size: 16px;
+		padding: 2px;
+		border-radius: 4px;
+		background-color: rgb(0, 0, 0, 0.5);
+	}
+
+	p {
+		margin: 0;
+	}
+`;
 
 const ButtonStyle = css`
-    div {
-        border-radius: 5px 5px 0px 0px;
-        background-color: rgba(0, 0, 0, 0.75);
+	div {
+		border-radius: 5px 5px 0px 0px;
+		background-color: rgba(0, 0, 0, 0.75);
 
-        margin: 0;
-        padding: 0px 15px 0px 15px;
-        line-height: 33px;
-        user-select: none; 
-    }
+		margin: 0;
+		padding: 0px 15px 0px 15px;
+		line-height: 33px;
+		user-select: none;
+	}
 
-    div:hover {
-        background-color: rgba(50, 50, 50, 0.5);
-    }
-`
+	div:hover {
+		background-color: rgba(50, 50, 50, 0.5);
+	}
+`;
 
 const PanelStyle = css`
-    div {
-        position: fixed;
-        margin: 0;
-        color: white;
+	div {
+		position: fixed;
+		margin: 0;
+		color: white;
 
-        top: 5px;
-        left: 5px;
-    }
-`
+		top: 5px;
+		left: 5px;
+	}
+`;
 
 const ShowStatsButton = () => {
-    const toggleShowStats = useStore(state => state.toggleShowStats);
-    const onClick = () => {
-        toggleShowStats();
-    }
+	const toggleShowStats = useStore(state => state.toggleShowStats);
+	const onClick = () => {
+		toggleShowStats();
+	};
 
-    return (
-        <div onClick={onClick} >
-            Toggle Statistics
-            <style jsx>{ButtonStyle}</style>
-        </div>
-    )
-}
+	return (
+		<div onClick={onClick}>
+			Toggle Statistics
+			<style jsx>{ButtonStyle}</style>
+		</div>
+	);
+};
 
 const Statistics: FC = () => {
-    const stats = useStore(state => state.stats);
-    
-    return (
-        <div>
-            {stats.map((e, i) =>
-                <p key={i}>{e.name}: <span>{e.value}</span></p>
-            )}
-            <style jsx >{StatisticsStyle} </style>
-        </div>
-    );
+	const stats = useStore(state => state.stats);
+
+	return (
+		<div>
+			{stats.map((e, i) => (
+				<p key={i}>
+					{e.name}: <span>{e.value}</span>
+				</p>
+			))}
+			<style jsx>{StatisticsStyle} </style>
+		</div>
+	);
 };
 
 export const AddStatistics = () => {
-    const addStats = useStore.getState().addStats;
-    const camera = useStore.getState().camera;
-    const player = useStore.getState().player;
-    const showStats = useStore.getState().showStats;
+	const { addStats } = useStore.getState();
+	const { camera } = useStore.getState();
+	const { player } = useStore.getState();
+	const { showStats } = useStore.getState();
 
-    if (!showStats) return;
-    addStats([
-        { name: "rotation-x", value: camera.camera.rotation.x.toString() } as IEntry,
-        { name: "rotation-y", value: camera.camera.rotation.y.toString() } as IEntry,
-        { name: "player-pos-x", value: player?.group?.position.x.toString() } as IEntry,
-        { name: "player-pos-y", value: player?.group?.position.y.toString() } as IEntry,
-        { name: "player-pos-z", value: player?.group?.position.z.toString() } as IEntry
-    ]);
-}
+	if (!showStats) return;
+	addStats([
+		{
+			name: 'rotation-x',
+			value: camera.camera.rotation.x.toString(),
+		} as IEntry,
+		{
+			name: 'rotation-y',
+			value: camera.camera.rotation.y.toString(),
+		} as IEntry,
+		{
+			name: 'player-pos-x',
+			value: player?.group?.position.x.toString(),
+		} as IEntry,
+		{
+			name: 'player-pos-y',
+			value: player?.group?.position.y.toString(),
+		} as IEntry,
+		{
+			name: 'player-pos-z',
+			value: player?.group?.position.z.toString(),
+		} as IEntry,
+	]);
+};
 
 const StatisticsPanel: FC = () => {
-    const showStats = useStore(state => state.showStats);
+	const showStats = useStore(state => state.showStats);
 
-    return (
-        <div>
-            <ShowStatsButton />
-            {showStats && <Statistics />}
-            <style jsx >{PanelStyle} </style>
-        </div>
-    );
-}
+	return (
+		<div>
+			<ShowStatsButton />
+			{showStats && <Statistics />}
+			<style jsx>{PanelStyle} </style>
+		</div>
+	);
+};
 
 export default StatisticsPanel;

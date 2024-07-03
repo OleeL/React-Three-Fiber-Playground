@@ -1,25 +1,23 @@
-import React, { FC, useEffect } from 'react'
-import { ICamera, IPlayer, useStore } from '../../stores/Store';
+import { useEffect } from 'react';
 import { useThree } from '@react-three/fiber';
+import { useStore } from '../../stores/Store';
 
 const Camera = () => {
-    const camera: ICamera = useStore.getState().camera;
-    const player: IPlayer = useStore.getState().player;
+	const { camera } = useStore.getState();
+	const { player } = useStore.getState();
 
-    const { set, scene } = useThree();
+	const { set, scene } = useThree();
 
-    console.log(player);
-
-    const f = useEffect(() => {
-        set(x => {
-            x.camera = camera.camera
-        });
-        scene.add(player.group);
-        player.group.add(camera.camera);
-        player.group.add(player.player);
-        camera.camera.rotation.order = "YXZ"; // this is not the default
-        camera.camera.position.set(0, 0, camera.distance);
-        camera.camera.position.applyQuaternion(camera.camera.quaternion);
-    },[]);
-}
+	useEffect(() => {
+		set(x => {
+			x.camera = camera.camera;
+		});
+		scene.add(player.group);
+		player.group.add(camera.camera);
+		player.group.add(player.player);
+		camera.camera.rotation.order = 'YXZ'; // this is not the default
+		camera.camera.position.set(0, 0, camera.distance);
+		camera.camera.position.applyQuaternion(camera.camera.quaternion);
+	}, [camera.camera, camera.distance, player.group, player.player, scene, set]);
+};
 export default Camera;
