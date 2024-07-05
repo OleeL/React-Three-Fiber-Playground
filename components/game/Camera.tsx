@@ -14,10 +14,17 @@ const Camera = () => {
 		});
 		scene.add(player.group);
 		player.group.add(camera.camera);
-		player.group.add(player.player);
+		player.group.add(player.playerMesh);
 		camera.camera.rotation.order = 'YXZ'; // this is not the default
 		camera.camera.position.set(0, 0, camera.distance);
 		camera.camera.position.applyQuaternion(camera.camera.quaternion);
-	}, [camera.camera, camera.distance, player.group, player.player, scene, set]);
+	}, [
+		camera.camera,
+		camera.distance,
+		player.group,
+		player.playerMesh,
+		scene,
+		set,
+	]);
 };
 export default Camera;

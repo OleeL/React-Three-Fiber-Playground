@@ -5,7 +5,7 @@ import { useStore, IPlayer } from '../../stores/Store';
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const OnUpdate = (e: any, player: IPlayer) => {
 	e.rotation.order = 'YXZ'; // this is not the default
-	player.player = e;
+	player.playerMesh = e;
 };
 
 const Model: FC = () => {

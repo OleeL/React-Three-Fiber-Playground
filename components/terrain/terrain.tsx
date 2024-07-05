@@ -17,7 +17,7 @@ const sessionSeed = Math.random();
 export const GetChunkX = (x: number, w: number): number => Math.round(x / w);
 export const GetChunkY = (y: number, h: number): number => Math.round(y / h);
 
-const renderDistance = 11; // Should be 2n - 1
+const renderDistance = 59; // Should be 2n - 1
 
 interface ITerrainData {
 	chunkSize: number;
@@ -120,8 +120,8 @@ const Terrain = () => {
 
 	return (
 		<group>
-			{chunkPositions.map((index, key) => (
-				<Chunk key={key} chunk={index} chunkSize={chunkSize} />
+			{chunkPositions.map((chunkPos, key) => (
+				<Chunk key={key} chunk={chunkPos} chunkSize={chunkSize} />
 			))}
 		</group>
 	);

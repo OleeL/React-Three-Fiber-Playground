@@ -17,7 +17,7 @@ export interface IEntry {
 export interface IPlayer {
 	position: Vector3;
 	direction: number;
-	player: Mesh;
+	playerMesh: Mesh;
 	group: Group;
 }
 
@@ -49,7 +49,7 @@ export type TStore = {
 	clock: Clock;
 	chunkSize: number;
 	chunk: ISmallVector2;
-	setChunk: (x: number, y: number) => void;
+	setChunk: (position: ISmallVector2) => void;
 	player: IPlayer;
 	camera: ICamera;
 	setCamera: (c: ICamera) => void;
@@ -68,13 +68,13 @@ export const useStore = create<TStore>(set => ({
 	chunk: {
 		x: 0,
 		y: 0,
-	} as ISmallVector2,
+	} satisfies ISmallVector2,
 
-	setChunk: (x: number, y: number) => set({ chunk: { x, y } }),
+	setChunk: ({ x, y }: ISmallVector2) => set({ chunk: { x, y } }),
 
 	player: {
 		position: new Vector3(0, 0, 0),
-		player: {},
+		playerMesh: {},
 		direction: 0,
 		group: new Group(),
 	} as IPlayer,

@@ -22,14 +22,13 @@ const GetDirEffect = (movement: Direction) => {
 			return 0;
 	}
 };
-
 const MoveDirection = (
 	player: IPlayer,
 	camera: ICamera,
 	dt: number,
 	movement?: Direction,
 ) => {
-	const { chunk, setChunk } = useStore.getState();
+	const { chunk, setChunk, chunkSize } = useStore.getState();
 
 	const directionEffect = GetDirEffect(movement);
 	const direction = camera.camera.rotation.y + directionEffect;
@@ -40,10 +39,10 @@ const MoveDirection = (
 	const cPosition = camera.camera.position;
 	const pPosition = player.group.position;
 
-	const cX = GetChunkX(pPosition.x, 25);
-	const cY = GetChunkY(pPosition.z, 25);
+	const cX = GetChunkX(pPosition.x, chunkSize);
+	const cY = GetChunkY(pPosition.z, chunkSize);
 
-	if (chunk.x !== cX || chunk.y !== cY) setChunk(cX, cY);
+	if (chunk.x !== cX || chunk.y !== cY) setChunk({ x: cX, y: cY });
 
 	pPosition.setX(pPosition.x - dt * (directionX * camera.speed));
 	pPosition.setZ(pPosition.z - dt * (directionZ * camera.speed));
