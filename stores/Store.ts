@@ -63,7 +63,7 @@ export type TStore = {
 export const useStore = create<TStore>(set => ({
 	clock: new Clock(),
 
-	chunkSize: 25,
+	chunkSize: 5,
 
 	chunk: {
 		x: 0,
