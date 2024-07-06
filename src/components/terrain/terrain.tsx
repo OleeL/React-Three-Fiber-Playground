@@ -18,11 +18,12 @@ export const GetChunkX = (x: number, w: number): number => Math.round(x / w);
 export const GetChunkY = (y: number, h: number): number => Math.round(y / h);
 
 const RENDER_DISTANCE = 59; // Should be 2n - 1
-const NOISE_DAMPENING = 100;
 
 interface ITerrainData {
 	chunkSize: number;
 	chunk: ISmallVector2;
+	noiseHeight: number;
+	noiseFrequency: number;
 }
 
 const isPlaneMesh = (e: BufferGeometry): e is PlaneGeometry =>
@@ -36,6 +37,8 @@ const DidUpdate = (
 	>,
 	chunk: ISmallVector2,
 	chunkSize: number,
+	noiseHeight: number,
+	noiseFrequency: number,
 ) => {
 	const { geometry } = e;
 	const pos = geometry.getAttribute('position');
@@ -53,28 +56,36 @@ const DidUpdate = (
 	for (let j = 0; j < hVerts; j++) {
 		for (let i = 0; i < wVerts; i++) {
 			// Calculate noise coordinates
-			const nx = (i + x) / NOISE_DAMPENING;
-			const ny = (j + y) / NOISE_DAMPENING;
+			const nx = (i + x) / noiseFrequency;
+			const ny = (j + y) / noiseFrequency;
 
 			// Update the z-position of the vertex using noise functions
 			pa[3 * (j * wVerts + i) + 2] =
-				(noise.simplex2(nx, ny) + // First noise layer
+				((noise.simplex2(nx, ny) + // First noise layer
 					noise.simplex2((nx + 2) / 0.5, (ny + 2) / 0.5) * ex ** 1 + // Second noise layer
 					noise.simplex2((nx + 4) / 0.25, (ny + 4) / 0.25) * ex ** 2 + // Third noise layer
 					noise.simplex2((nx + 6) / 0.125, (ny + 6) / 0.125) * ex ** 3 + // Fourth noise layer
 					noise.simplex2((nx + 8) / 0.0625, (ny + 8) / 0.0625) * ex ** 4) / // Fifth noise layer
-				1.5; // Normalize the sum of noise layers
+					1.5) *
+				noiseHeight; // Normalize the sum of noise layers and scale by noiseHeight
 		}
 	}
 
 	pos.needsUpdate = true;
 };
 
-const Chunk: FC<ITerrainData> = ({ chunk, chunkSize }) => {
+const Chunk: FC<ITerrainData> = ({
+	chunk,
+	chunkSize,
+	noiseHeight,
+	noiseFrequency,
+}) => {
 	return (
 		<mesh
-			onUpdate={e => DidUpdate(e, chunk, chunkSize)}
-			rotation={[-Math.PI / 2, 0, 0]}
+			onUpdate={e =>
+				DidUpdate(e, chunk, chunkSize, noiseHeight, noiseFrequency)
+			}
+			rotation={[-Math.PI * 0.5, 0, 0]}
 			position={[chunk.x * chunkSize, -1.5, chunk.y * chunkSize]}>
 			<planeGeometry
 				attach="geometry"
@@ -93,15 +104,17 @@ const Chunk: FC<ITerrainData> = ({ chunk, chunkSize }) => {
 noise.seed(sessionSeed);
 
 const Terrain = () => {
-	const { chunk, chunkSize } = useStore(state => ({
+	const { chunk, chunkSize, noiseHeight, noiseFrequency } = useStore(state => ({
 		chunk: state.chunk,
 		chunkSize: state.chunkSize,
+		noiseHeight: state.terrain.noiseHeight || 1,
+		noiseFrequency: state.terrain.noiseFrequency || 100,
 	}));
 
 	const chunkPositions: ISmallVector2[] = useMemo(() => {
 		const renderSize = RENDER_DISTANCE * RENDER_DISTANCE;
 		const chunkPositions = new Array(renderSize);
-		const halfRenderDistance = Math.floor(RENDER_DISTANCE / 2);
+		const halfRenderDistance = Math.floor(RENDER_DISTANCE * 0.5);
 		let index = 0;
 
 		for (
@@ -123,7 +136,13 @@ const Terrain = () => {
 	return (
 		<group>
 			{chunkPositions.map((chunkPos, key) => (
-				<Chunk key={key} chunk={chunkPos} chunkSize={chunkSize} />
+				<Chunk
+					key={key}
+					chunk={chunkPos}
+					chunkSize={chunkSize}
+					noiseHeight={noiseHeight}
+					noiseFrequency={noiseFrequency}
+				/>
 			))}
 		</group>
 	);

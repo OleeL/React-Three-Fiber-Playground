@@ -53,6 +53,10 @@ export type GameStore = {
 	clock: Clock;
 	chunkSize: number;
 	chunk: ISmallVector2;
+	terrain: {
+		noiseHeight: number;
+		noiseFrequency: number;
+	};
 	setChunk: (position: ISmallVector2) => void;
 	player: IPlayer;
 	camera: ICamera;
@@ -67,7 +71,7 @@ export type GameStore = {
 export const useStore = create<GameStore>(set => ({
 	clock: new Clock(),
 
-	chunkSize: 5,
+	chunkSize: 10,
 
 	chunk: {
 		x: 0,
@@ -86,6 +90,11 @@ export const useStore = create<GameStore>(set => ({
 		direction: 0,
 		group: new Group(),
 	} satisfies IPlayer,
+
+	terrain: {
+		noiseHeight: 3,
+		noiseFrequency: 200,
+	},
 
 	camera: {
 		camera: new PerspectiveCamera(),
