@@ -1,9 +1,10 @@
-import React, { FC } from 'react';
+import React from 'react';
 import Game from '../components/game/Game';
 
-const index: FC = () => 
-    <>
-        <Game />
-    </>
+const index = () => (
+	<>
+		<Game />
+	</>
+);
 
 export default index;

@@ -8,9 +8,9 @@ export const distanceN = (
 	z1?: number,
 	z2?: number,
 ): number => {
-	if (z1 && z2)
-		return Math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2 + (z2 - z1) ** 2);
-	return Math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2);
+	return z1 && z2
+		? Math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2 + (z2 - z1) ** 2)
+		: Math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2);
 };
 
 export const distance = (

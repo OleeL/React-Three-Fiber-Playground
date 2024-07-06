@@ -7,6 +7,10 @@ import {
 	Vector2,
 	Quaternion,
 	Group,
+	BufferGeometry,
+	Material,
+	NormalBufferAttributes,
+	Object3DEventMap,
 } from 'three';
 
 export interface IEntry {
@@ -74,10 +78,14 @@ export const useStore = create<GameStore>(set => ({
 
 	player: {
 		position: new Vector3(0, 0, 0),
-		playerMesh: {},
+		playerMesh: {} as Mesh<
+			BufferGeometry<NormalBufferAttributes>,
+			Material | Material[],
+			Object3DEventMap
+		>,
 		direction: 0,
 		group: new Group(),
-	} as IPlayer,
+	} satisfies IPlayer,
 
 	camera: {
 		camera: new PerspectiveCamera(),
@@ -95,10 +103,10 @@ export const useStore = create<GameStore>(set => ({
 			xvel: 0,
 			yvel: 0,
 			zvel: 0,
-		} as IVelocity,
+		} satisfies IVelocity,
 		sensitivity: new Vector2(2, 1.5),
 		direction: 0,
-	} as ICamera,
+	} satisfies ICamera,
 	setCamera: (c: ICamera) => set({ camera: c }),
 	showStats: false,
 	toggleShowStats: () => set(s => ({ showStats: !s.showStats })),

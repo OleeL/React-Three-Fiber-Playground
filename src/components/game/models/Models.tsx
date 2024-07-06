@@ -9,8 +9,6 @@ const Models: FC = () => (
 			position={[0, -1.5, 0]}
 			scale={[0.2, 0.2, 0.2]}
 			rotation={[Math.PI / 2, 0, 0]}
-			castShadow
-			receiveShadow
 		/>
 	</Suspense>
 );
