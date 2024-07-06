@@ -46,7 +46,11 @@ const Box = (
 				ref={ref}
 				{...props}
 				{...settings}>
-				<a.boxBufferGeometry attach="geometry" args={[1, 1, 1]} />
+				<a.boxGeometry
+					attach="geometry"
+					args={[1, 1, 1]}
+					isBufferGeometry={true}
+				/>
 				<a.meshStandardMaterial
 					attach="material"
 					{...material}

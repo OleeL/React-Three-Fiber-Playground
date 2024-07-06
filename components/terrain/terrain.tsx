@@ -76,7 +76,7 @@ const Chunk: FC<ITerrainData> = ({ chunk, chunkSize }) => {
 			onUpdate={e => DidUpdate(e, chunk, chunkSize)}
 			rotation={[-Math.PI / 2, 0, 0]}
 			position={[chunk.x * chunkSize, -1.5, chunk.y * chunkSize]}>
-			<planeBufferGeometry
+			<planeGeometry
 				attach="geometry"
 				args={[chunkSize, chunkSize, chunkSize, chunkSize]}
 			/>
