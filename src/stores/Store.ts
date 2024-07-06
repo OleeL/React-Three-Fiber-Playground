@@ -45,7 +45,7 @@ export interface ISmallVector2 {
 	y: number;
 }
 
-export type TStore = {
+export type GameStore = {
 	clock: Clock;
 	chunkSize: number;
 	chunk: ISmallVector2;
@@ -60,7 +60,7 @@ export type TStore = {
 	setStats: (stats: IEntry[]) => void;
 };
 
-export const useStore = create<TStore>(set => ({
+export const useStore = create<GameStore>(set => ({
 	clock: new Clock(),
 
 	chunkSize: 5,

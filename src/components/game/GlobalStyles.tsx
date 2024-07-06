@@ -26,11 +26,11 @@ const Dark: IColorScheme = {
 	color: '#ffffff', // white
 };
 
-type TColorStore = {
+type ColorStore = {
 	Selected: IColorScheme;
 };
 
-export const useColorStore = create<TColorStore>(() => ({
+export const useColorStore = create<ColorStore>(() => ({
 	Selected: Dark,
 }));
 
