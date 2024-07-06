@@ -6,7 +6,7 @@ const DIRECTIONS = {
 	LEFT: 'left',
 	RIGHT: 'right',
 	BACKWARDS: 'backwards',
-};
+} as const;
 
 type Direction = ObjectValues<typeof DIRECTIONS>;
 

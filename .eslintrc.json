@@ -13,7 +13,7 @@
 	"parserOptions": {
 		"project": "./tsconfig.json"
 	},
-    "ignorePatterns": ["components/terrain/perlin.ts"],
+    "ignorePatterns": ["components/terrain/perlin.ts", "next.config.js"],
 	"settings": {
 		"import/resolver": {
 			"node": {

@@ -1,6 +1,13 @@
-import React, { useState, forwardRef } from 'react';
-import { useSpring, a } from '@react-spring/three';
-import { Vector3 } from '@react-three/fiber';
+import React, { useState, forwardRef, ComponentProps } from 'react';
+import { useSpring, a, AnimatedComponent } from '@react-spring/three';
+import { MeshProps, Vector3 } from '@react-three/fiber';
+import {
+	Mesh,
+	BufferGeometry,
+	NormalBufferAttributes,
+	Material,
+	Object3DEventMap,
+} from 'three';
 
 const material = {
 	transparent: true,
@@ -8,9 +15,18 @@ const material = {
 	fog: true,
 	shininess: 1,
 	flatShading: false,
-};
+} as const;
 
-const Box = (props, ref) => {
+const Box = (
+	props: ComponentProps<AnimatedComponent<React.FC<MeshProps>>>,
+	ref: React.Ref<
+		Mesh<
+			BufferGeometry<NormalBufferAttributes>,
+			Material | Material[],
+			Object3DEventMap
+		>
+	>,
+) => {
 	const [hovered, setHovered] = useState(false);
 	const [active, setActive] = useState(false);
 	const settings = useSpring({
