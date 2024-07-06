@@ -17,7 +17,8 @@ const sessionSeed = Math.random();
 export const GetChunkX = (x: number, w: number): number => Math.round(x / w);
 export const GetChunkY = (y: number, h: number): number => Math.round(y / h);
 
-const renderDistance = 59; // Should be 2n - 1
+const RENDER_DISTANCE = 59; // Should be 2n - 1
+const NOISE_DAMPENING = 100;
 
 interface ITerrainData {
 	chunkSize: number;
@@ -51,15 +52,18 @@ const DidUpdate = (
 
 	for (let j = 0; j < hVerts; j++) {
 		for (let i = 0; i < wVerts; i++) {
-			const nx = (i + x) / 100;
-			const ny = (j + y) / 100;
+			// Calculate noise coordinates
+			const nx = (i + x) / NOISE_DAMPENING;
+			const ny = (j + y) / NOISE_DAMPENING;
+
+			// Update the z-position of the vertex using noise functions
 			pa[3 * (j * wVerts + i) + 2] =
-				(noise.simplex2(nx, ny) +
-					noise.simplex2((nx + 2) / 0.5, (ny + 2) / 0.5) * ex ** 1 +
-					noise.simplex2((nx + 4) / 0.25, (ny + 4) / 0.25) * ex ** 2 +
-					noise.simplex2((nx + 6) / 0.125, (ny + 6) / 0.125) * ex ** 3 +
-					noise.simplex2((nx + 8) / 0.0625, (ny + 8) / 0.0625) * ex ** 4) /
-				1.5;
+				(noise.simplex2(nx, ny) + // First noise layer
+					noise.simplex2((nx + 2) / 0.5, (ny + 2) / 0.5) * ex ** 1 + // Second noise layer
+					noise.simplex2((nx + 4) / 0.25, (ny + 4) / 0.25) * ex ** 2 + // Third noise layer
+					noise.simplex2((nx + 6) / 0.125, (ny + 6) / 0.125) * ex ** 3 + // Fourth noise layer
+					noise.simplex2((nx + 8) / 0.0625, (ny + 8) / 0.0625) * ex ** 4) / // Fifth noise layer
+				1.5; // Normalize the sum of noise layers
 		}
 	}
 
@@ -81,8 +85,6 @@ const Chunk: FC<ITerrainData> = ({ chunk, chunkSize }) => {
 				color={'white'}
 				specular={specular}
 				shininess={0}
-				// @ts-ignore
-				smoothShading
 			/>
 		</mesh>
 	);
@@ -97,9 +99,9 @@ const Terrain = () => {
 	}));
 
 	const chunkPositions: ISmallVector2[] = useMemo(() => {
-		const renderSize = renderDistance * renderDistance;
+		const renderSize = RENDER_DISTANCE * RENDER_DISTANCE;
 		const chunkPositions = new Array(renderSize);
-		const halfRenderDistance = Math.floor(renderDistance / 2);
+		const halfRenderDistance = Math.floor(RENDER_DISTANCE / 2);
 		let index = 0;
 
 		for (
