@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect, useRef } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import css from 'styled-jsx/css';
 import Lights from './Light';
@@ -15,13 +15,20 @@ const GameStyle = css`
 		position: fixed;
 		padding: 0;
 		margin: 0;
-
 		top: 0;
 		left: 0;
-
 		width: 100%;
 		height: 100%;
 		background: rgb(135, 206, 235);
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+	canvas {
+		display: block;
+		width: 100%;
+		height: auto;
+		max-height: 100%;
 	}
 `;
 
@@ -42,9 +49,28 @@ const ControlUpdate = () => {
 
 const Game: FC = () => {
 	CreateControls();
+	const canvasRef = useRef<HTMLCanvasElement>(null);
+
+	useEffect(() => {
+		const handleResize = () => {
+			if (canvasRef.current) {
+				const canvas = canvasRef.current;
+				canvas.style.width = `${window.innerWidth}px`;
+				canvas.style.height = `${window.innerHeight}px`;
+			}
+		};
+
+		window.addEventListener('resize', handleResize);
+		handleResize();
+
+		return () => {
+			window.removeEventListener('resize', handleResize);
+		};
+	}, []);
+
 	return (
 		<div>
-			<Canvas linear id="Canvas">
+			<Canvas linear id="Canvas" ref={canvasRef}>
 				<Terrain />
 				<ControlUpdate />
 				<Lights />

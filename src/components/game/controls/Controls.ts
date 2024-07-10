@@ -21,6 +21,7 @@ import {
 	CommandQ,
 } from './KeyBindingCommands';
 import { LockPointer } from './PointerLockControls';
+import { ICamera, IPlayer } from '../../../stores/Store';
 
 const codeToKey = new Map<number, string>();
 const keysDown: string[] = [];
@@ -50,26 +51,27 @@ const onDocumentKeyUp = (event: { which: number }) => {
 	keysDown.splice(keysDown.indexOf(codeToKey.get(keyCode)), 1);
 };
 
-export const LoopControls = (dt: number, player, camera) => {
+export const LoopControls = (dt: number, player: IPlayer, camera: ICamera) => {
+	const hasModifier = false;
 	keysDown.forEach(key => {
 		switch (key) {
 			case LEFT:
-				CommandLeft(player, camera, dt);
+				CommandLeft(player, camera, hasModifier, dt);
 				return;
 			case UP:
-				CommandUp(player, camera, dt);
+				CommandUp(player, camera, hasModifier, dt);
 				return;
 			case DOWN:
-				CommandDown(player, camera, dt);
+				CommandDown(player, camera, hasModifier, dt);
 				return;
 			case RIGHT:
-				CommandRight(player, camera, dt);
+				CommandRight(player, camera, hasModifier, dt);
 				return;
 			case E:
-				CommandE(player, camera, dt);
+				CommandE(player, camera, hasModifier, dt);
 				return;
 			case Q:
-				CommandQ(player, camera, dt);
+				CommandQ(player, camera, hasModifier, dt);
 				break;
 			default:
 		}

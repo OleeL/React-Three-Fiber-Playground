@@ -68,6 +68,11 @@ export type GameStore = {
 	setStats: (stats: IEntry[]) => void;
 };
 
+const getAspectRatio = () =>
+	typeof window !== 'undefined'
+		? window.screen.width / window.screen.height
+		: 16 / 9;
+
 export const useStore = create<GameStore>(set => ({
 	clock: new Clock(),
 
@@ -97,7 +102,7 @@ export const useStore = create<GameStore>(set => ({
 	},
 
 	camera: {
-		camera: new PerspectiveCamera(),
+		camera: new PerspectiveCamera(50, getAspectRatio(), 0.1, 10000),
 		quaternion: new Quaternion(),
 		position: new Vector3(0, 1, 4),
 		distance: 4,

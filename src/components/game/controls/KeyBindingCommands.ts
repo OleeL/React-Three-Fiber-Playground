@@ -51,24 +51,50 @@ const MoveDirection = (
 	camera.camera.position.applyQuaternion(camera.camera.quaternion);
 };
 
-export const CommandLeft = (player: IPlayer, camera: ICamera, dt: number) =>
-	MoveDirection(player, camera, dt, DIRECTIONS.LEFT);
+export const CommandLeft = (
+	player: IPlayer,
+	camera: ICamera,
+	hasModifier: boolean,
+	dt: number,
+) => MoveDirection(player, camera, dt, DIRECTIONS.LEFT);
 
-export const CommandUp = (player: IPlayer, camera: ICamera, dt: number) =>
-	MoveDirection(player, camera, dt);
+export const CommandUp = (
+	player: IPlayer,
+	camera: ICamera,
+	hasModifier: boolean,
+	dt: number,
+) => MoveDirection(player, camera, dt);
 
-export const CommandRight = (player: IPlayer, camera: ICamera, dt: number) =>
-	MoveDirection(player, camera, dt, DIRECTIONS.RIGHT);
+export const CommandRight = (
+	player: IPlayer,
+	camera: ICamera,
+	hasModifier: boolean,
+	dt: number,
+) => MoveDirection(player, camera, dt, DIRECTIONS.RIGHT);
 
-export const CommandDown = (player: IPlayer, camera: ICamera, dt: number) =>
-	MoveDirection(player, camera, dt, DIRECTIONS.BACKWARDS);
+export const CommandDown = (
+	player: IPlayer,
+	camera: ICamera,
+	hasModifier: boolean,
+	dt: number,
+) => MoveDirection(player, camera, dt, DIRECTIONS.BACKWARDS);
 
-export const CommandE = (player: IPlayer, camera: ICamera, dt: number) =>
+export const CommandE = (
+	player: IPlayer,
+	camera: ICamera,
+	hasModifier: boolean,
+	dt: number,
+) =>
 	player.group.position.setY(
 		player.group.position.y + dt * (camera.speed * 0.5),
 	);
 
-export const CommandQ = (player: IPlayer, camera: ICamera, dt: number) =>
+export const CommandQ = (
+	player: IPlayer,
+	camera: ICamera,
+	hasModifier: boolean,
+	dt: number,
+) =>
 	player.group.position.setY(
 		player.group.position.y - dt * (camera.speed * 0.5),
 	);

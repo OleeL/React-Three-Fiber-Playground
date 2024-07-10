@@ -7,7 +7,10 @@ import {
 	Mesh,
 	NormalBufferAttributes,
 	Object3DEventMap,
+	TextureLoader,
+	RepeatWrapping,
 } from 'three';
+import { useLoader } from '@react-three/fiber';
 import { noise } from './perlin';
 import { ISmallVector2, useStore } from '../../stores/Store';
 
@@ -80,22 +83,48 @@ const Chunk: FC<ITerrainData> = ({
 	noiseHeight,
 	noiseFrequency,
 }) => {
+	const [ambientOcclusion, baseColor, height, normal, roughness] = useLoader(
+		TextureLoader,
+		[
+			'assets/grass/Stylized_Grass_003_ambientOcclusion.jpg',
+			'assets/grass/Stylized_Grass_003_basecolor.jpg',
+			'assets/grass/Stylized_Grass_003_height.png',
+			'assets/grass/Stylized_Grass_003_normal.jpg',
+			'assets/grass/Stylized_Grass_003_roughness.jpg',
+		],
+	);
+
+	// Ensure textures repeat for the whole terrain
+	[ambientOcclusion, baseColor, height, normal, roughness].forEach(texture => {
+		texture.wrapS = RepeatWrapping;
+		texture.wrapT = RepeatWrapping;
+		texture.repeat.set(chunkSize, chunkSize);
+	});
+
 	return (
 		<mesh
 			onUpdate={e =>
 				DidUpdate(e, chunk, chunkSize, noiseHeight, noiseFrequency)
 			}
 			rotation={[-Math.PI * 0.5, 0, 0]}
-			position={[chunk.x * chunkSize, -1.5, chunk.y * chunkSize]}>
+			position={[chunk.x * chunkSize, -1.5, chunk.y * chunkSize]}
+			castShadow
+			frustumCulled={false}
+			receiveShadow>
 			<planeGeometry
 				attach="geometry"
 				args={[chunkSize, chunkSize, chunkSize, chunkSize]}
 			/>
-			<meshPhongMaterial
+			<meshStandardMaterial
 				attach="material"
-				color={'white'}
-				specular={specular}
-				shininess={0}
+				map={baseColor}
+				aoMap={ambientOcclusion}
+				displacementMap={height}
+				displacementScale={1}
+				normalMap={normal}
+				roughnessMap={roughness}
+				roughness={1}
+				metalness={0}
 			/>
 		</mesh>
 	);

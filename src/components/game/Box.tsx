@@ -46,16 +46,8 @@ const Box = (
 				ref={ref}
 				{...props}
 				{...settings}>
-				<a.boxGeometry
-					attach="geometry"
-					args={[1, 1, 1]}
-					isBufferGeometry={true}
-				/>
-				<a.meshStandardMaterial
-					attach="material"
-					{...material}
-					color={settings.color}
-				/>
+				<a.boxGeometry args={[1, 1, 1]} />
+				<a.meshStandardMaterial {...material} color={settings.color} />
 			</a.mesh>
 		</group>
 	);
