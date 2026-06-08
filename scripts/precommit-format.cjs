@@ -28,7 +28,7 @@ if (stagedFiles.length === 0) {
 	process.exit(0);
 }
 
-execFileSync('npx', ['prettier', '--write', ...stagedFiles], {
+execFileSync('pnpm', ['exec', 'prettier', '--write', ...stagedFiles], {
 	stdio: 'inherit',
 });
 execFileSync('git', ['add', ...stagedFiles], { stdio: 'inherit' });
