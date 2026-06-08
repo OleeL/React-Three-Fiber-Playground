@@ -1,13 +1,7 @@
 import React, { useState, forwardRef, ComponentProps } from 'react';
 import { useSpring, a, AnimatedComponent } from '@react-spring/three';
 import { MeshProps, Vector3 } from '@react-three/fiber';
-import {
-	Mesh,
-	BufferGeometry,
-	NormalBufferAttributes,
-	Material,
-	Object3DEventMap,
-} from 'three';
+import { Mesh } from 'three';
 
 const material = {
 	transparent: true,
@@ -19,13 +13,7 @@ const material = {
 
 const Box = (
 	props: ComponentProps<AnimatedComponent<React.FC<MeshProps>>>,
-	ref: React.Ref<
-		Mesh<
-			BufferGeometry<NormalBufferAttributes>,
-			Material | Material[],
-			Object3DEventMap
-		>
-	>,
+	ref: React.Ref<Mesh>,
 ) => {
 	const [hovered, setHovered] = useState(false);
 	const [active, setActive] = useState(false);

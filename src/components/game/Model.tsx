@@ -1,25 +1,27 @@
-import React, { FC, useRef } from 'react';
-import Box from './Box';
-import { useStore, IPlayer } from '../../stores/Store';
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const OnUpdate = (e: any, player: IPlayer) => {
-	e.rotation.order = 'YXZ'; // this is not the default
-	player.playerMesh = e;
-};
+import { FC, useEffect } from 'react';
+import { useGLTF } from '@react-three/drei';
+import { useStore } from '../../stores/Store';
 
 const Model: FC = () => {
+	const { scene } = useGLTF('/models/embPlane.glb');
 	const { player } = useStore.getState();
 
-	const ref = useRef();
+	useEffect(() => {
+		scene.scale.set(0.2, 0.2, 0.2);
+		scene.position.set(0, 0, 0);
+		scene.rotation.set(0, 0, 0);
 
-	return (
-		<Box
-			onUpdate={e => OnUpdate(e, player)}
-			position={player.position}
-			ref={ref}
-		/>
-	);
+		player.playerMesh = scene;
+		player.group.add(scene);
+
+		return () => {
+			player.group.remove(scene);
+		};
+	}, [player, scene]);
+
+	return null;
 };
+
+useGLTF.preload('/models/embPlane.glb');
 
 export default Model;

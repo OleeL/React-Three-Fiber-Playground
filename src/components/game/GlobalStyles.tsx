@@ -1,6 +1,5 @@
 // styles/global.js
 import css from 'styled-jsx/css';
-import { create } from 'zustand';
 
 export interface IColorScheme {
 	primary: string;
@@ -26,14 +25,6 @@ const Dark: IColorScheme = {
 	color: '#ffffff', // white
 };
 
-type ColorStore = {
-	Selected: IColorScheme;
-};
-
-export const useColorStore = create<ColorStore>(() => ({
-	Selected: Dark,
-}));
-
 const GlobalStyles = css.global`
 
     @font-face {
@@ -51,7 +42,7 @@ const GlobalStyles = css.global`
         overflow-y: auto;
         background-color: ${Dark.backgroundColor};
         min-width: 0px;
-        
+
         font-family: 'RobotoMono';
         font-style: normal;
     }

@@ -2,15 +2,11 @@ import { create } from 'zustand';
 import {
 	Vector3,
 	PerspectiveCamera,
-	Mesh,
+	Object3D,
 	Clock,
 	Vector2,
 	Quaternion,
 	Group,
-	BufferGeometry,
-	Material,
-	NormalBufferAttributes,
-	Object3DEventMap,
 } from 'three';
 
 export interface IEntry {
@@ -21,8 +17,13 @@ export interface IEntry {
 export interface IPlayer {
 	position: Vector3;
 	direction: number;
-	playerMesh: Mesh;
+	playerMesh: Object3D;
 	group: Group;
+	flight: {
+		pitch: number;
+		roll: number;
+		targetAltitude: number;
+	};
 }
 
 export interface IVelocity {
@@ -30,6 +31,8 @@ export interface IVelocity {
 	yvel: number;
 	zvel: number;
 }
+
+export type CameraPerspective = 'thirdPerson' | 'firstPerson';
 
 export interface ICamera {
 	position: Vector3;
@@ -42,6 +45,12 @@ export interface ICamera {
 	rotationalVelocity: IVelocity;
 	sensitivity: Vector2;
 	direction: number;
+	perspective: CameraPerspective;
+	mouseLook: {
+		yaw: number;
+		pitch: number;
+		lastInputAt: number;
+	};
 }
 
 export interface ISmallVector2 {
@@ -86,14 +95,15 @@ export const useStore = create<GameStore>(set => ({
 	setChunk: ({ x, y }: ISmallVector2) => set({ chunk: { x, y } }),
 
 	player: {
-		position: new Vector3(0, 0, 0),
-		playerMesh: {} as Mesh<
-			BufferGeometry<NormalBufferAttributes>,
-			Material | Material[],
-			Object3DEventMap
-		>,
+		position: new Vector3(0, 8, 0),
+		playerMesh: new Object3D(),
 		direction: 0,
 		group: new Group(),
+		flight: {
+			pitch: 0,
+			roll: 0,
+			targetAltitude: 8,
+		},
 	} satisfies IPlayer,
 
 	terrain: {
@@ -120,6 +130,12 @@ export const useStore = create<GameStore>(set => ({
 		} satisfies IVelocity,
 		sensitivity: new Vector2(2, 1.5),
 		direction: 0,
+		perspective: 'thirdPerson',
+		mouseLook: {
+			yaw: 0,
+			pitch: 0,
+			lastInputAt: 0,
+		},
 	} satisfies ICamera,
 	setCamera: (c: ICamera) => set({ camera: c }),
 	showStats: false,

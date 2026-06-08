@@ -1,6 +1,7 @@
 import React, { FC, useEffect, useRef } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import css from 'styled-jsx/css';
+import Clouds from './Clouds';
 import Lights from './Light';
 import Models from './models/Models';
 import CreateControls, { LoopControls } from './controls/Controls';
@@ -38,7 +39,7 @@ const ControlUpdate = () => {
 
 	useFrame(state => {
 		const time = state.clock.getElapsedTime();
-		const dt = (time - previousTime) / 1000;
+		const dt = time - previousTime;
 		LoopControls(dt, player, camera);
 		AddStatistics();
 
@@ -48,8 +49,11 @@ const ControlUpdate = () => {
 };
 
 const Game: FC = () => {
-	CreateControls();
 	const canvasRef = useRef<HTMLCanvasElement>(null);
+
+	useEffect(() => {
+		CreateControls();
+	}, []);
 
 	useEffect(() => {
 		const handleResize = () => {
@@ -70,10 +74,15 @@ const Game: FC = () => {
 
 	return (
 		<div>
-			<Canvas linear id="Canvas" ref={canvasRef}>
+			<Canvas
+				id="Canvas"
+				ref={canvasRef}
+				dpr={[1, 1.5]}
+				gl={{ antialias: false, powerPreference: 'high-performance' }}>
 				<Terrain />
 				<ControlUpdate />
 				<Lights />
+				<Clouds />
 				<Player />
 				<Models />
 			</Canvas>

@@ -1,15 +1,5 @@
 import { FC } from 'react';
-import {
-	Vector3,
-	Euler,
-	EulerOrder,
-	Object3D,
-	Object3DEventMap,
-	Mesh,
-	BufferGeometry,
-	Material,
-	NormalBufferAttributes,
-} from 'three';
+import { Vector3, Euler, EulerOrder, Object3D, Mesh } from 'three';
 import { useGLTF } from '@react-three/drei';
 import { MeshProps, MeshStandardMaterialProps } from '@react-three/fiber';
 
@@ -22,11 +12,7 @@ interface IModelProps {
 
 interface IRenderProps {
 	model: MeshProps;
-	mesh: Mesh<
-		BufferGeometry<NormalBufferAttributes>,
-		Material | Material[],
-		Object3DEventMap
-	>;
+	mesh: Mesh;
 }
 
 const toVector3 = (
@@ -49,7 +35,7 @@ const Render: FC<IRenderProps> = props => (
 	</mesh>
 );
 
-const GetMeshes = (elements: { [name: string]: Object3D<Object3DEventMap> }) =>
+const GetMeshes = (elements: { [name: string]: Object3D }) =>
 	Object.keys(elements)
 		.filter(key => elements[key].type === 'Mesh')
 		.map(key => elements[key] as Mesh);

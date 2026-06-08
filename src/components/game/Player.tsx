@@ -1,13 +1,14 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import Camera from './Camera';
 import Model from './Model';
 
 const Player = () => {
 	Camera();
+
 	return (
-		<group>
+		<Suspense fallback={null}>
 			<Model />
-		</group>
+		</Suspense>
 	);
 };
 

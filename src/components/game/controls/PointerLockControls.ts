@@ -1,6 +1,11 @@
-import { PerspectiveCamera } from 'three';
 import { useStore } from '../../../stores/Store';
-import { mod } from '../../../helpers/vectors';
+
+const MAX_MOUSE_LOOK_YAW = Math.PI * 0.45;
+const MAX_MOUSE_LOOK_PITCH = Math.PI * 0.3;
+const MOUSE_LOOK_SCALE = 8;
+
+const clamp = (value: number, min: number, max: number) =>
+	Math.min(Math.max(value, min), max);
 
 export const LockPointer = () => {
 	// check pointerLock support
@@ -11,6 +16,7 @@ export const LockPointer = () => {
 
 	// Gets canvas by id (TO DO: USE A REF)
 	const requestedElement = document.getElementById('Canvas');
+	if (!requestedElement) return;
 	// eslint-disable-next-line no-self-assign
 	document.exitPointerLock = document.exitPointerLock;
 
@@ -26,21 +32,23 @@ export const LockPointer = () => {
 		false,
 	);
 
-	const moveCallback = (e: { movementX: any; movementY: any }) => {
-		const mouseX = -(e.movementX / window.innerWidth);
-		const mouseY = -(e.movementY / window.innerHeight);
+	const moveCallback = (e: { movementX: number; movementY: number }) => {
 		const { camera } = useStore.getState();
-		const cam: PerspectiveCamera = camera.camera;
+		const { mouseLook } = camera;
+		const mouseX = (e.movementX / window.innerWidth) * camera.sensitivity.y;
+		const mouseY = (e.movementY / window.innerHeight) * camera.sensitivity.x;
 
-		cam.rotation.y += mouseX * camera.sensitivity.y;
-		cam.rotation.y = mod(cam.rotation.y, Math.PI * 2);
-		cam.rotation.x = Math.max(
-			Math.min(cam.rotation.x + mouseY * camera.sensitivity.x, 0),
-			-Math.PI / 2,
+		mouseLook.yaw = clamp(
+			mouseLook.yaw + mouseX * MOUSE_LOOK_SCALE,
+			-MAX_MOUSE_LOOK_YAW,
+			MAX_MOUSE_LOOK_YAW,
 		);
-
-		cam.position.set(0, 0, camera.distance);
-		cam.position.applyQuaternion(camera.camera.quaternion);
+		mouseLook.pitch = clamp(
+			mouseLook.pitch - mouseY * MOUSE_LOOK_SCALE,
+			-MAX_MOUSE_LOOK_PITCH,
+			MAX_MOUSE_LOOK_PITCH,
+		);
+		mouseLook.lastInputAt = performance.now();
 	};
 
 	const changeCallback = () => {

@@ -12,17 +12,16 @@ const Camera = () => {
 		set(x => {
 			x.camera = camera.camera;
 		});
+		player.group.rotation.order = 'YXZ';
+		player.group.position.copy(player.position);
 		scene.add(player.group);
-		player.group.add(camera.camera);
-		player.group.add(player.playerMesh);
+		scene.add(camera.camera);
 		camera.camera.rotation.order = 'YXZ'; // this is not the default
-		camera.camera.position.set(0, 0, camera.distance);
-		camera.camera.position.applyQuaternion(camera.camera.quaternion);
 	}, [
 		camera.camera,
 		camera.distance,
 		player.group,
-		player.playerMesh,
+		player.position,
 		scene,
 		set,
 	]);
