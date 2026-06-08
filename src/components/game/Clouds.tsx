@@ -24,6 +24,9 @@ const fragmentShader = `
 	uniform float coverage;
 	uniform float densityMultiplier;
 	uniform float detailStrength;
+	uniform float maxTraceDistance;
+	uniform float shadowStrength;
+	uniform float insideCloud;
 	uniform int steps;
 
 	varying vec3 vWorldPosition;
@@ -58,14 +61,11 @@ const fragmentShader = `
 	}
 
 	float shapeNoise(vec3 p) {
-		float value = noise(p) * 0.58;
-		value += noise(p * 2.03 + 17.1) * 0.29;
-		value += noise(p * 4.01 + 41.7) * 0.13;
-		return value;
+		return noise(p) * 0.68 + noise(p * 2.03 + 17.1) * 0.32;
 	}
 
 	float detailNoise(vec3 p) {
-		return noise(p) * 0.66 + noise(p * 2.17 + 9.4) * 0.34;
+		return noise(p);
 	}
 
 	float remap(float value, float originalMin, float originalMax, float newMin, float newMax) {
@@ -95,9 +95,9 @@ const fragmentShader = `
 		float shape = shapeNoise(shapePosition);
 		float cloud = remap(shape, coverage, 1.0, 0.0, 1.0) * heightGradient;
 
-		if (includeDetail && cloud > 0.03) {
-			float detail = detailNoise(position * 0.035 + wind * 4.0);
-			cloud -= detail * detailStrength * 0.22;
+		if (includeDetail && detailStrength > 0.01 && cloud > 0.04) {
+			float detail = detailNoise(position * 0.032 + wind * 4.0);
+			cloud -= detail * detailStrength * 0.2;
 		}
 
 		return clamp(cloud, 0.0, 1.0) * densityMultiplier;
@@ -118,6 +118,7 @@ const fragmentShader = `
 			discard;
 		}
 
+		dstInsideBox = min(dstInsideBox, maxTraceDistance);
 		float stepSize = dstInsideBox / float(steps);
 		float dstTravelled = dstToBox + stepSize * interleavedGradientNoise(gl_FragCoord.xy);
 		float transmittance = 1.0;
@@ -126,17 +127,20 @@ const fragmentShader = `
 		vec3 midColor = vec3(0.75, 0.82, 0.90);
 		vec3 shadowColor = vec3(0.43, 0.52, 0.64);
 
-		for (int i = 0; i < 40; i++) {
+		for (int i = 0; i < 24; i++) {
 			if (i >= steps) {
 				break;
 			}
 
 			vec3 samplePosition = rayOrigin + rayDirection * dstTravelled;
-			float density = sampleDensity(samplePosition, true);
+			float density = sampleDensity(samplePosition, insideCloud < 0.5);
 
 			if (density > 0.002) {
-				float shadowDensity = sampleDensity(samplePosition + sunDirection * 22.0, false);
-				float light = exp(-shadowDensity * 1.8);
+				float shadowDensity = 0.0;
+				if (shadowStrength > 0.01) {
+					shadowDensity = sampleDensity(samplePosition + sunDirection * 18.0, false);
+				}
+				float light = insideCloud > 0.5 ? 0.72 : exp(-shadowDensity * shadowStrength);
 				float heightLight = smoothstep(boundsMin.y, boundsMax.y, samplePosition.y);
 				vec3 sampleColor = mix(shadowColor, midColor, light);
 				sampleColor = mix(sampleColor, lightColor, light * heightLight * 0.65);
@@ -191,8 +195,11 @@ const Clouds: FC = () => {
 			cameraWorldPosition: { value: new Vector3() },
 			coverage: { value: 0.48 },
 			densityMultiplier: { value: 0.78 },
-			detailStrength: { value: 0.58 },
-			steps: { value: 28 },
+			detailStrength: { value: 0.34 },
+			insideCloud: { value: 0 },
+			maxTraceDistance: { value: 260 },
+			shadowStrength: { value: 1.1 },
+			steps: { value: 14 },
 			sunDirection: { value: sunDirection },
 			time: { value: 0 },
 		}),
@@ -215,11 +222,26 @@ const Clouds: FC = () => {
 			CLOUD_TOP,
 			cloudCenter.z + CLOUD_WIDTH * 0.5,
 		);
+		const cameraInsideCloud =
+			camera.position.x >= boundsMin.x &&
+			camera.position.x <= boundsMax.x &&
+			camera.position.y >= boundsMin.y &&
+			camera.position.y <= boundsMax.y &&
+			camera.position.z >= boundsMin.z &&
+			camera.position.z <= boundsMax.z;
+
 		mesh.position.set(cloudCenter.x, CLOUD_CENTER_Y, cloudCenter.z);
 		material.uniforms.boundsMin.value.copy(boundsMin);
 		material.uniforms.boundsMax.value.copy(boundsMax);
 		material.uniforms.time.value = clock.elapsedTime;
 		material.uniforms.cameraWorldPosition.value.copy(camera.position);
+		material.uniforms.insideCloud.value = cameraInsideCloud ? 1 : 0;
+		material.uniforms.steps.value = cameraInsideCloud ? 6 : 14;
+		material.uniforms.maxTraceDistance.value = cameraInsideCloud ? 80 : 260;
+		material.uniforms.detailStrength.value = cameraInsideCloud ? 0 : 0.34;
+		material.uniforms.shadowStrength.value = cameraInsideCloud ? 0 : 1.1;
+		material.uniforms.densityMultiplier.value = cameraInsideCloud ? 0.42 : 0.64;
+		material.uniforms.coverage.value = cameraInsideCloud ? 0.54 : 0.49;
 	});
 
 	return (

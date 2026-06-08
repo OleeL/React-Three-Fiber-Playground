@@ -1,4 +1,4 @@
-import { Vector3 } from 'three';
+import { Euler, Vector3 } from 'three';
 import {
 	LEFT,
 	UP,
@@ -24,6 +24,8 @@ const keysDown: string[] = [];
 const forward = new Vector3();
 const cameraPosition = new Vector3();
 const cameraTarget = new Vector3();
+const cameraOrbitOffset = new Vector3();
+const cameraOrbitRotation = new Euler(0, 0, 0, 'YXZ');
 let controlsCreated = false;
 
 const CRUISE_SPEED = 45;
@@ -87,14 +89,9 @@ const dampToward = (value: number, target: number, rate: number, dt: number) =>
 	value + (target - value) * Math.min(1, rate * dt);
 
 const updateCamera = (player: IPlayer, camera: ICamera, dt: number) => {
-	const offset =
-		camera.perspective === 'thirdPerson'
-			? THIRD_PERSON_OFFSET
-			: FIRST_PERSON_OFFSET;
-	const target =
-		camera.perspective === 'thirdPerson'
-			? THIRD_PERSON_TARGET
-			: FIRST_PERSON_TARGET;
+	const isThirdPerson = camera.perspective === 'thirdPerson';
+	const offset = isThirdPerson ? THIRD_PERSON_OFFSET : FIRST_PERSON_OFFSET;
+	const target = isThirdPerson ? THIRD_PERSON_TARGET : FIRST_PERSON_TARGET;
 
 	if (performance.now() - camera.mouseLook.lastInputAt > MOUSE_LOOK_IDLE_MS) {
 		camera.mouseLook.yaw = dampToward(
@@ -111,13 +108,27 @@ const updateCamera = (player: IPlayer, camera: ICamera, dt: number) => {
 		);
 	}
 
-	const lookScale = camera.perspective === 'thirdPerson' ? 10 : 28;
-
 	player.group.updateMatrixWorld();
-	cameraPosition.copy(offset);
 	cameraTarget.copy(target);
-	cameraTarget.x += camera.mouseLook.yaw * lookScale;
-	cameraTarget.y += camera.mouseLook.pitch * lookScale;
+
+	if (isThirdPerson) {
+		cameraOrbitOffset.copy(offset).sub(target);
+		cameraOrbitRotation.set(
+			-camera.mouseLook.pitch,
+			camera.mouseLook.yaw,
+			0,
+			'YXZ',
+		);
+		cameraOrbitOffset.applyEuler(cameraOrbitRotation);
+		cameraPosition.copy(target).add(cameraOrbitOffset);
+	} else {
+		const lookScale = 28;
+
+		cameraPosition.copy(offset);
+		cameraTarget.x += camera.mouseLook.yaw * lookScale;
+		cameraTarget.y += camera.mouseLook.pitch * lookScale;
+	}
+
 	player.group.localToWorld(cameraPosition);
 	player.group.localToWorld(cameraTarget);
 	camera.camera.position.copy(cameraPosition);

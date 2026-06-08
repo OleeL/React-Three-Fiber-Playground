@@ -2,6 +2,7 @@ import { FC } from 'react';
 import { Vector3, Euler, EulerOrder, Object3D, Mesh } from 'three';
 import { useGLTF } from '@react-three/drei';
 import { MeshProps, MeshStandardMaterialProps } from '@react-three/fiber';
+import { publicAssetPath } from '../../../../helpers/assets';
 
 interface IModelProps {
 	name: string;
@@ -41,7 +42,7 @@ const GetMeshes = (elements: { [name: string]: Object3D }) =>
 		.map(key => elements[key] as Mesh);
 
 const GLTF: FC<IModelProps> = model => {
-	const url = `/models/${model.name}.glb`;
+	const url = publicAssetPath(`/models/${model.name}.glb`);
 	const { nodes } = useGLTF(url);
 	const meshes = GetMeshes(nodes);
 

@@ -1,5 +1,6 @@
 // styles/global.js
 import css from 'styled-jsx/css';
+import { publicAssetPath } from '../../helpers/assets';
 
 export interface IColorScheme {
 	primary: string;
@@ -25,16 +26,19 @@ const Dark: IColorScheme = {
 	color: '#ffffff', // white
 };
 
+const robotoMonoFont = publicAssetPath('/fonts/RobotoMono.ttf');
+const robotoMonoItalicFont = publicAssetPath('/fonts/RobotoMono-Italic.ttf');
+
 const GlobalStyles = css.global`
 
     @font-face {
         font-family: 'RobotoMono';
-        src: url('/fonts/RobotoMono.ttf') format('truetype');
+        src: url('${robotoMonoFont}') format('truetype');
     }
 
     @font-face {
         font-family: 'RobotoMono';
-        src: url('/fonts/RobotoMono-Italic.ttf') format('truetype')
+        src: url('${robotoMonoItalicFont}') format('truetype')
         font-style: italic;
     }
 

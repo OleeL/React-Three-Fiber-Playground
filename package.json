@@ -5,9 +5,12 @@
 	"license": "MIT",
 	"scripts": {
 		"dev": "next",
-		"build": "next build",
+		"build": "GITHUB_PAGES_BASE_PATH= NEXT_PUBLIC_SITE_BASE_PATH= next build",
+		"build:pages": "next build",
 		"start": "next start",
 		"export": "next export",
+		"serve:out": "npx serve@latest out",
+		"serve:out:pages": "npx serve@latest out -u",
 		"format": "prettier --write .",
 		"format:check": "prettier --check .",
 		"prepare": "node scripts/install-precommit-hook.cjs"
