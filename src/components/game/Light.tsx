@@ -9,7 +9,7 @@ const Lights: FC = () => {
 	const { scene } = useThree();
 
 	useEffect(() => {
-		scene.fog = new Fog(FOG_COLOR, 360, 980);
+		scene.fog = new Fog(FOG_COLOR, 1200, 3200);
 	}, [scene]);
 
 	return (

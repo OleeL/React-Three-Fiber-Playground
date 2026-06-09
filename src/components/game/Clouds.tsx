@@ -170,7 +170,7 @@ const boundsMin = new Vector3();
 const boundsMax = new Vector3();
 const sunDirection = new Vector3(0.45, 0.78, 0.3).normalize();
 
-const CLOUD_WIDTH = 760;
+const CLOUD_WIDTH = 1800;
 const CLOUD_BOTTOM = 42;
 const CLOUD_TOP = 112;
 const CLOUD_HEIGHT = CLOUD_TOP - CLOUD_BOTTOM;
@@ -237,7 +237,7 @@ const Clouds: FC = () => {
 		material.uniforms.cameraWorldPosition.value.copy(camera.position);
 		material.uniforms.insideCloud.value = cameraInsideCloud ? 1 : 0;
 		material.uniforms.steps.value = cameraInsideCloud ? 6 : 14;
-		material.uniforms.maxTraceDistance.value = cameraInsideCloud ? 80 : 260;
+		material.uniforms.maxTraceDistance.value = cameraInsideCloud ? 120 : 520;
 		material.uniforms.detailStrength.value = cameraInsideCloud ? 0 : 0.34;
 		material.uniforms.shadowStrength.value = cameraInsideCloud ? 0 : 1.1;
 		material.uniforms.densityMultiplier.value = cameraInsideCloud ? 0.42 : 0.64;

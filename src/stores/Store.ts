@@ -112,7 +112,7 @@ export const useStore = create<GameStore>(set => ({
 	},
 
 	camera: {
-		camera: new PerspectiveCamera(50, getAspectRatio(), 0.1, 10000),
+		camera: new PerspectiveCamera(50, getAspectRatio(), 0.1, 50000),
 		quaternion: new Quaternion(),
 		position: new Vector3(0, 1, 4),
 		distance: 4,

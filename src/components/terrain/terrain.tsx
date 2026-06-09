@@ -214,8 +214,8 @@ const waterMaterial = new ShaderMaterial({
 	depthWrite: false,
 	uniforms: {
 		time: { value: 0 },
-		waterColor: { value: new Color(0x3ab8d8) },
-		deepColor: { value: new Color(0x0f526b) },
+		waterColor: { value: new Color(0x6bd8ee) },
+		deepColor: { value: new Color(0x2b93b8) },
 	},
 	vertexShader: `
 		uniform float time;
@@ -240,8 +240,8 @@ const waterMaterial = new ShaderMaterial({
 
 		void main() {
 			float shimmer = sin((vWorldXZ.x + vWorldXZ.y) * 0.12 + vWave * 5.0) * 0.5 + 0.5;
-			vec3 color = mix(deepColor, waterColor, 0.58 + shimmer * 0.12);
-			gl_FragColor = vec4(color, 0.68);
+			vec3 color = mix(deepColor, waterColor, 0.72 + shimmer * 0.14);
+			gl_FragColor = vec4(color, 0.62);
 		}
 	`,
 });
