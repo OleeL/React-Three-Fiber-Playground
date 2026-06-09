@@ -1,19 +1,13 @@
-import React, { FC, useEffect } from 'react';
-import { Color, Fog } from 'three';
-import { useThree } from '@react-three/fiber';
+import { FC } from 'react';
+import { Color } from 'three';
 
 const ATMOSPHERE_COLOR = new Color(0xcfe9ff);
 const FOG_COLOR = new Color(0xb8d3de);
 
 const Lights: FC = () => {
-	const { scene } = useThree();
-
-	useEffect(() => {
-		scene.fog = new Fog(FOG_COLOR, 1200, 3200);
-	}, [scene]);
-
 	return (
 		<>
+			<fog attach="fog" args={[FOG_COLOR, 1200, 3200]} />
 			<ambientLight color={ATMOSPHERE_COLOR} intensity={1.35} />
 			<hemisphereLight
 				color={new Color(0xeaf7ff)}
