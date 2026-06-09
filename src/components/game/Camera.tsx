@@ -9,9 +9,7 @@ const Camera = () => {
 	const { set, scene } = useThree();
 
 	useEffect(() => {
-		set(x => {
-			x.camera = camera.camera;
-		});
+		set({ camera: camera.camera });
 		player.group.rotation.order = 'YXZ';
 		player.group.position.copy(player.position);
 		scene.add(player.group);

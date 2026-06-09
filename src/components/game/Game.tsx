@@ -1,4 +1,6 @@
-import React, { FC, useEffect, useRef } from 'react';
+'use client';
+
+import React, { useEffect, useRef } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import css from 'styled-jsx/css';
 import Clouds from './Clouds';
@@ -20,7 +22,7 @@ const GameStyle = css`
 		left: 0;
 		width: 100%;
 		height: 100%;
-		background: rgb(135, 206, 235);
+		background: rgb(184, 211, 222);
 		display: flex;
 		justify-content: center;
 		align-items: center;
@@ -45,10 +47,10 @@ const ControlUpdate = () => {
 
 		previousTime = time;
 	});
-	return <mesh />;
+	return null;
 };
 
-const Game: FC = () => {
+const Game = () => {
 	const canvasRef = useRef<HTMLCanvasElement>(null);
 
 	useEffect(() => {

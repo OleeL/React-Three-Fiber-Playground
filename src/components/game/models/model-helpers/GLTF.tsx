@@ -1,7 +1,14 @@
 import { FC } from 'react';
-import { Vector3, Euler, EulerOrder, Object3D, Mesh } from 'three';
+import {
+	Vector3,
+	Euler,
+	EulerOrder,
+	Object3D,
+	Mesh,
+	MeshStandardMaterial,
+	Material,
+} from 'three';
 import { useGLTF } from '@react-three/drei';
-import { MeshProps, MeshStandardMaterialProps } from '@react-three/fiber';
 import { publicAssetPath } from '../../../../helpers/assets';
 
 interface IModelProps {
@@ -12,7 +19,11 @@ interface IModelProps {
 }
 
 interface IRenderProps {
-	model: MeshProps;
+	model: {
+		position?: Vector3;
+		scale?: Vector3;
+		rotation?: Euler;
+	};
 	mesh: Mesh;
 }
 
@@ -29,7 +40,7 @@ const Render: FC<IRenderProps> = props => (
 	<mesh {...props.model}>
 		<bufferGeometry {...props?.mesh.geometry} attach="geometry" />
 		<meshStandardMaterial
-			{...(props?.mesh.material as MeshStandardMaterialProps)}
+			{...(props.mesh.material as MeshStandardMaterial | Material)}
 			attach="material"
 			name="Material"
 		/>

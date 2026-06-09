@@ -1,7 +1,6 @@
-import React, { useState, forwardRef, ComponentProps } from 'react';
-import { useSpring, a, AnimatedComponent } from '@react-spring/three';
-import { MeshProps, Vector3 } from '@react-three/fiber';
-import { Mesh } from 'three';
+import React, { useState, forwardRef } from 'react';
+import { useSpring, a } from '@react-spring/three';
+import { Mesh, Vector3Tuple } from 'three';
 
 const material = {
 	transparent: true,
@@ -12,13 +11,15 @@ const material = {
 } as const;
 
 const Box = (
-	props: ComponentProps<AnimatedComponent<React.FC<MeshProps>>>,
+	props: React.ComponentProps<typeof a.mesh>,
 	ref: React.Ref<Mesh>,
 ) => {
 	const [hovered, setHovered] = useState(false);
 	const [active, setActive] = useState(false);
 	const settings = useSpring({
-		scale: (active ? [0.5, 0.5, 0.5] : [0.25, 0.25, 0.25]) satisfies Vector3,
+		scale: (active
+			? [0.5, 0.5, 0.5]
+			: [0.25, 0.25, 0.25]) satisfies Vector3Tuple,
 		color: hovered ? 'orange' : 'red',
 	});
 

@@ -85,7 +85,7 @@ const getAspectRatio = () =>
 export const useStore = create<GameStore>(set => ({
 	clock: new Clock(),
 
-	chunkSize: 10,
+	chunkSize: 20,
 
 	chunk: {
 		x: 0,
@@ -107,8 +107,8 @@ export const useStore = create<GameStore>(set => ({
 	} satisfies IPlayer,
 
 	terrain: {
-		noiseHeight: 3,
-		noiseFrequency: 200,
+		noiseHeight: 4.5,
+		noiseFrequency: 260,
 	},
 
 	camera: {
